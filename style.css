@@ -214,3 +214,99 @@ body{min-height:100dvh;background:radial-gradient(circle at top,#ffe4ee 0,#f6b6c
     height:min(92dvh,930px) !important;
   }
 }
+
+
+/* V6: QR + music + landscape handling */
+.landscape-blocker{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:linear-gradient(135deg,#fff6fb,#f3b8cc,#fff1d8);
+  color:#6b2348;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:24px;
+}
+.rotate-card{
+  max-width:360px;
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(255,255,255,.7);
+  border-radius:28px;
+  padding:28px 24px;
+  box-shadow:0 22px 70px rgba(88,26,57,.22);
+}
+.rotate-icon{
+  font-size:52px;
+  transform:rotate(90deg);
+  margin-bottom:10px;
+}
+.rotate-card h2{
+  margin:0 0 8px;
+  font-family:Georgia,serif;
+}
+.rotate-card p{margin:0;font-size:15px}
+
+@media (max-width:900px) and (orientation:landscape){
+  .landscape-blocker{display:flex}
+}
+
+.qr-modal{
+  position:fixed;
+  inset:0;
+  z-index:9998;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(35,10,25,.55);
+  backdrop-filter:blur(8px);
+  padding:24px;
+}
+.qr-modal.hidden{display:none}
+.qr-card{
+  position:relative;
+  width:min(86vw,360px);
+  background:#fff6fb;
+  color:#6b2348;
+  border-radius:28px;
+  padding:24px 22px 20px;
+  text-align:center;
+  box-shadow:0 24px 80px rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,.8);
+}
+.qr-card h2{font-family:Georgia,serif;margin:0 0 4px}
+.qr-card p{font-size:14px;margin:0 0 14px}
+.qr-card img{
+  width:min(68vw,250px);
+  height:auto;
+  border-radius:18px;
+  background:white;
+  padding:10px;
+  box-shadow:0 10px 30px rgba(107,35,72,.16);
+}
+.qr-card small{display:block;margin-top:10px;font-size:12px;opacity:.78}
+.qr-close{
+  position:absolute;
+  top:10px;
+  right:12px;
+  width:34px;
+  height:34px;
+  border-radius:999px;
+  border:0;
+  background:#7e3758;
+  color:white;
+  font-size:24px;
+  line-height:30px;
+}
+
+#musicBtn.playing{
+  background:rgba(245,185,208,.86) !important;
+  color:#6b2348 !important;
+}
+
+@media(max-width:700px){
+  #qrBtn, #musicBtn{
+    font-weight:800;
+  }
+}

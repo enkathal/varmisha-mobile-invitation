@@ -133,3 +133,56 @@ document.getElementById('shareBtn').addEventListener('click', async () => {
 
 buildDots();
 if('serviceWorker' in navigator){ window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{})); }
+
+
+/* V6 music + QR controls */
+const musicBtn = document.getElementById('musicBtn');
+const qrBtn = document.getElementById('qrBtn');
+const qrModal = document.getElementById('qrModal');
+const closeQr = document.getElementById('closeQr');
+const bgMusic = document.getElementById('bgMusic');
+
+let musicPlaying = false;
+
+async function toggleMusic(){
+  if(!bgMusic) return;
+  try{
+    if(musicPlaying){
+      bgMusic.pause();
+      musicPlaying = false;
+      musicBtn?.classList.remove('playing');
+      if(musicBtn) musicBtn.textContent = '♪';
+    }else{
+      await bgMusic.play();
+      musicPlaying = true;
+      musicBtn?.classList.add('playing');
+      if(musicBtn) musicBtn.textContent = '♫';
+    }
+  }catch(e){
+    alert("Music file not added yet. Add assets/audio/music.mp3 and upload again.");
+  }
+}
+
+musicBtn?.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  toggleMusic();
+});
+
+qrBtn?.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  qrModal?.classList.remove('hidden');
+});
+
+closeQr?.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  qrModal?.classList.add('hidden');
+});
+
+qrModal?.addEventListener('click', (e)=>{
+  if(e.target === qrModal) qrModal.classList.add('hidden');
+});
+
+// Try to collapse Android browser bar after entering the invitation.
+window.addEventListener('orientationchange', ()=>{
+  setTimeout(()=>window.scrollTo(0,1), 250);
+});

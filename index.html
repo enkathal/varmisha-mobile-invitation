@@ -55,5 +55,27 @@
   </main>
 
   <script src="script.js"></script>
+
+<div id="landscapeBlocker" class="landscape-blocker">
+  <div class="rotate-card">
+    <div class="rotate-icon">📱</div>
+    <h2>Please rotate your phone</h2>
+    <p>This invitation is designed for portrait view.</p>
+  </div>
+</div>
+
+<div id="qrModal" class="qr-modal hidden" role="dialog" aria-label="QR Code">
+  <div class="qr-card">
+    <button id="closeQr" class="qr-close" aria-label="Close">×</button>
+    <h2>Scan to Open</h2>
+    <p>For the best experience, scan with your phone camera.</p>
+    <img src="assets/qr/varmisha-qr.png" alt="Varmisha invitation QR code">
+    <small>https://varmisha.netlify.app</small>
+  </div>
+</div>
+
+<audio id="bgMusic" loop preload="none">
+  <source src="assets/audio/music.mp3" type="audio/mpeg">
+</audio>
 </body>
 </html>
