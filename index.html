@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Varmisha's Manchal Neerattu Vizha</title>
+  <meta name="theme-color" content="#c85b86" />
+  <meta name="description" content="Varmisha's Manchal Neerattu Vizha mobile invitation" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="loader" class="loader">
+    <div class="loader-card">
+      <div class="lotus">🌸</div>
+      <h1>Varmisha</h1>
+      <p>Manchal Neerattu Vizha</p>
+      <span>Loading invitation…</span>
+    </div>
+  </div>
+
+  <main id="app" class="app" aria-label="Varmisha mobile invitation">
+    <section id="intro" class="intro" role="button" tabindex="0" aria-label="Tap to begin invitation">
+      <div class="intro-card">
+        <div class="lotus">🌸</div>
+        <h1>Varmisha</h1>
+        <p>Manchal Neerattu Vizha</p>
+        <small>27 August 2026</small>
+        <button id="beginBtn">Tap to Begin</button>
+      </div>
+    </section>
+
+    <section id="viewer" class="viewer hidden">
+      <div class="phone-shell">
+        <img id="pageImage" alt="Invitation page" />
+        <button id="prevBtn" class="tap-zone left" aria-label="Previous page"></button>
+        <button id="nextBtn" class="tap-zone right" aria-label="Next page"></button>
+        <div class="topbar">
+          <button id="homeBtn" class="icon-btn" aria-label="Back to beginning">⌂</button>
+          <div id="counter" class="counter">1 / 12</div>
+          <button id="shareBtn" class="icon-btn" aria-label="Share invitation">↗</button>
+        </div>
+        <div id="hint" class="hint">Swipe or tap to continue</div>
+        <div id="dots" class="dots" aria-hidden="true"></div>
+        <div id="actions" class="actions hidden">
+          <a class="action" href="https://forms.gle/j2ULEXyF5mwENLyC9" target="_blank" rel="noopener">RSVP</a>
+          <a class="action" href="https://www.google.com/maps/search/?api=1&query=Hamshiya%20Mahal%2037%20Ramanathan%20Road%20Jaffna%20Sri%20Lanka" target="_blank" rel="noopener">Directions</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
