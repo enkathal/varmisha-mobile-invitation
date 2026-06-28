@@ -1,81 +1,197 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f3a9c2" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Varmisha's Manchal Neerattu Vizha</title>
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#2b0f22" />
+<title>Varmisha Premium Mobile Invitation V7</title>
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="favicon.png" />
+<style>
+:root{
+  --bg:#2b0f22;
+  --gold:#d8a64c;
+  --gold2:#fff2b0;
+  --pink:#f7bdd1;
+  --rose:#8b315c;
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --safe-top:env(safe-area-inset-top,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:Georgia,'Times New Roman',serif;color:#fff}
+body{background:radial-gradient(circle at top,#ffe0ec 0,#783151 45%,#190716 100%)}
+.bg{position:fixed;inset:0;background:radial-gradient(circle at 20% 15%,rgba(255,255,255,.45),transparent 24%),radial-gradient(circle at 82% 80%,rgba(255,218,117,.30),transparent 30%);pointer-events:none;animation:bgmove 9s ease-in-out infinite alternate}
+@keyframes bgmove{to{transform:scale(1.05);opacity:.86}}
+.petals{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:1}.petals span{position:absolute;top:-8vh;font-size:22px;opacity:.45;animation:fall 13s linear infinite}.petals span:nth-child(1){left:8%;animation-delay:0s}.petals span:nth-child(2){left:28%;animation-delay:2s}.petals span:nth-child(3){left:50%;animation-delay:4s}.petals span:nth-child(4){left:72%;animation-delay:1s}.petals span:nth-child(5){left:91%;animation-delay:5s}@keyframes fall{to{transform:translate3d(-35px,112vh,0) rotate(260deg)}}
+.hidden{display:none!important}
+.intro{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:22px}.intro-card{width:min(92vw,440px);text-align:center;padding:34px 22px;border-radius:32px;background:linear-gradient(160deg,rgba(255,255,255,.76),rgba(255,235,244,.46));border:1px solid rgba(255,255,255,.6);box-shadow:0 25px 80px rgba(38,4,25,.36);backdrop-filter:blur(14px);color:#6b2348}.intro-card .lotus{font-size:54px;margin-bottom:10px}.intro-card h1{font-size:clamp(34px,9vw,50px);line-height:1.02;color:#68213e}.intro-card h2{font-size:20px;margin:10px 0 22px;color:#8a3a60;font-weight:400}.btn{border:0;border-radius:999px;padding:14px 24px;margin:7px auto;display:inline-block;text-decoration:none;background:linear-gradient(135deg,var(--gold),var(--gold2),#c9952f);color:#55203f;font-weight:800;font-size:16px;box-shadow:0 10px 26px rgba(42,6,26,.27);cursor:pointer}.btn.secondary{background:rgba(255,255,255,.65);border:1px solid rgba(139,49,92,.25)}.small-note{font-family:Arial,sans-serif;font-size:12px;margin-top:10px;color:#7c4e62}
+.app{position:fixed;inset:0;z-index:4;display:grid;place-items:center;background:#000}.viewer{position:relative;width:100vw;height:100dvh;background:#000;overflow:hidden;touch-action:none}.viewer img{width:100%;height:100%;object-fit:contain;object-position:center center;display:block;background:#000;user-select:none;-webkit-user-drag:none;transition:opacity .24s ease,transform .24s ease}.changing img{opacity:.55;transform:scale(.985)}
+.topbar{position:absolute;top:calc(10px + var(--safe-top));left:12px;right:12px;z-index:10;display:flex;justify-content:space-between;align-items:center;pointer-events:none}.chip,.icon-btn{pointer-events:auto;border:1px solid rgba(255,255,255,.42);background:rgba(65,20,49,.47);color:#fff;backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.22)}.chip{border-radius:999px;padding:9px 13px;font:700 12px Arial,sans-serif;letter-spacing:.05em}.icon-btn{width:42px;height:42px;border-radius:50%;font-size:20px;display:grid;place-items:center;text-decoration:none}
+.nav-zone{position:absolute;top:0;bottom:0;width:42%;z-index:4;border:0;background:transparent}.nav-zone.left{left:0}.nav-zone.right{right:0}.bottom{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(18px + var(--safe-bottom));z-index:10;display:flex;gap:6px;align-items:center;background:rgba(65,20,49,.38);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:7px 11px;backdrop-filter:blur(12px)}.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.52);transition:.2s}.dot.active{width:20px;border-radius:999px;background:#fff}.float{position:absolute;bottom:calc(17px + var(--safe-bottom));z-index:11;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.45);background:rgba(65,20,49,.55);color:#fff;backdrop-filter:blur(12px);font-size:20px;display:grid;place-items:center}.float.music{right:14px}.float.home{left:14px}.float.playing{background:linear-gradient(135deg,var(--gold),var(--gold2),#c9952f);color:#55203f;animation:pulse 1.8s ease-in-out infinite}@keyframes pulse{50%{transform:scale(1.07)}}
+.final-actions{position:absolute;left:10px;right:10px;bottom:calc(72px + var(--safe-bottom));z-index:12;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.final-actions a,.final-actions button{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:13px 8px;background:rgba(126,55,88,.84);color:#fff;text-decoration:none;font:800 13px Arial,sans-serif;backdrop-filter:blur(12px)}
+.qr-modal{position:fixed;inset:0;z-index:30;display:grid;place-items:center;background:rgba(20,3,16,.72);padding:22px}.qr-card{width:min(90vw,360px);border-radius:28px;background:#fff;color:#632341;text-align:center;padding:24px;box-shadow:0 25px 80px rgba(0,0,0,.35)}.qr-card img{width:190px;max-width:70%;margin:14px auto;display:block}.qr-card button{margin-top:10px}
+@media (min-width:760px){.app{background:transparent}.viewer{width:min(430px,94vw);height:min(930px,94dvh);border:12px solid #090207;border-radius:42px;box-shadow:0 32px 90px rgba(22,7,18,.55)}}
+@media (orientation:landscape) and (max-width:900px){.viewer img{object-fit:contain}.intro-card{padding:18px 22px}.intro-card .lotus{font-size:36px}.intro-card h1{font-size:30px}.intro-card h2{font-size:16px;margin-bottom:10px}.btn{padding:10px 18px;font-size:14px}.bottom{bottom:calc(8px + var(--safe-bottom))}.float{bottom:calc(7px + var(--safe-bottom));width:40px;height:40px}.final-actions{bottom:calc(55px + var(--safe-bottom))}}
+</style>
 </head>
 <body>
-  <div class="bg-glow" aria-hidden="true"></div>
-  <div class="petals" aria-hidden="true">
-    <span>✦</span><span>🌸</span><span>✧</span><span>❀</span><span>✦</span>
+<div class="bg"></div>
+<div class="petals"><span>🌸</span><span>🌺</span><span>🌸</span><span>🌺</span><span>🌸</span></div>
+
+<audio id="bgMusic" loop preload="auto"><source src="assets/audio/music.mp3" type="audio/mpeg"></audio>
+
+<section class="intro" id="intro">
+  <div class="intro-card">
+    <div class="lotus">🌸</div>
+    <h1>Varmisha</h1>
+    <h2>மஞ்சள் நீராட்டு விழா<br>Premium Mobile Invitation</h2>
+    <button class="btn" id="beginBtn">✨ Enter Invitation</button><br>
+    <button class="btn secondary" id="fullscreenBtn">🌐 Open Full Screen</button>
+    <div class="small-note">Tap once to start music and full screen view</div>
   </div>
+</section>
 
-  <section id="intro" class="intro" aria-label="Welcome screen">
-    <div class="intro-card">
-      <div class="lotus">🌸</div>
-      <p class="eyebrow">You are invited to celebrate</p>
-      <h1>Varmisha's<br><span>Manchal Neerattu Vizha</span></h1>
-      <p class="date">27 August 2026</p>
-      <button id="beginBtn" class="begin-btn" type="button">Tap to Begin</button>
-      <p class="hint">Swipe or tap to turn pages</p>
+<main class="app hidden" id="app">
+  <div class="viewer" id="viewer">
+    <img id="pageImage" alt="Varmisha invitation page" />
+    <button class="nav-zone left" id="prevZone" aria-label="Previous page"></button>
+    <button class="nav-zone right" id="nextZone" aria-label="Next page"></button>
+    <div class="topbar">
+      <button class="icon-btn" id="shareTop" title="Share">↗</button>
+      <div class="chip" id="pageCount">1 / 12</div>
+      <button class="icon-btn" id="qrBtn" title="QR code">▦</button>
     </div>
-  </section>
-
-  <main id="app" class="app hidden" aria-label="Mobile invitation viewer">
-    <div class="phone-frame">
-      <div class="phone-status" aria-hidden="true"><span>Varmisha</span><span>♡</span></div>
-      <section id="viewer" class="viewer">
-        <button class="nav-zone nav-prev" id="prevZone" aria-label="Previous page"></button>
-        <img id="pageImage" src="" alt="Invitation page" draggable="false" />
-        <button class="nav-zone nav-next" id="nextZone" aria-label="Next page"></button>
-        <div id="loading" class="loading">Loading invitation…</div>
-      </section>
-      <div class="bottom-bar">
-        <button id="prevBtn" class="circle-btn" type="button" aria-label="Previous">‹</button>
-        <div class="progress-wrap">
-          <div id="pageCount" class="page-count">1 / 12</div>
-          <div id="dots" class="dots" aria-hidden="true"></div>
-        </div>
-        <button id="nextBtn" class="circle-btn" type="button" aria-label="Next">›</button>
-      </div>
-      <div id="finalActions" class="final-actions hidden">
-        <a href="https://forms.gle/j2ULEXyF5mwENLyC9" target="_blank" rel="noopener">RSVP</a>
-        <a href="https://www.google.com/maps/search/?api=1&query=Hamshiya%20Mahal%2037%20Ramanathan%20Road%20Jaffna%20Sri%20Lanka" target="_blank" rel="noopener">Directions</a>
-        <button id="shareBtn" type="button">Share</button>
-      </div>
+    <button class="float home" id="homeBtn" title="Home">⌂</button>
+    <button class="float music" id="musicBtn" title="Music">♪</button>
+    <div class="bottom" id="dots"></div>
+    <div class="final-actions hidden" id="finalActions">
+      <a href="https://www.google.com/maps/search/?api=1&query=Hamshiya+Mahal+37+Ramanathan+Road+Jaffna" target="_blank" rel="noopener">Directions</a>
+      <a href="https://forms.gle/j2ULEXyF5mwENLyC9" target="_blank" rel="noopener">RSVP</a>
+      <button id="shareBtn">Share</button>
     </div>
-  </main>
-
-  <script src="script.js"></script>
-
-<div id="landscapeBlocker" class="landscape-blocker">
-  <div class="rotate-card">
-    <div class="rotate-icon">📱</div>
-    <h2>Please rotate your phone</h2>
-    <p>This invitation is designed for portrait view.</p>
   </div>
-</div>
+</main>
 
-<div id="qrModal" class="qr-modal hidden" role="dialog" aria-label="QR Code">
+<div class="qr-modal hidden" id="qrModal">
   <div class="qr-card">
-    <button id="closeQr" class="qr-close" aria-label="Close">×</button>
-    <h2>Scan to Open</h2>
-    <p>For the best experience, scan with your phone camera.</p>
-    <img src="assets/qr/varmisha-qr.png" alt="Varmisha invitation QR code">
-    <small>https://varmisha.netlify.app</small>
+    <h2>Scan Invitation</h2>
+    <img src="assets/qr/varmisha-qr.png" alt="Varmisha QR code">
+    <p>varmisha.netlify.app</p>
+    <button class="btn" id="closeQr">Close</button>
   </div>
 </div>
 
-<audio id="bgMusic" loop preload="none">
-  <source src="assets/audio/music.mp3" type="audio/mpeg">
-</audio>
+<script>
+const pages = [
+  '01 - Cover.png',
+  '02 - Cover.png',
+  '02 - Invitation.png',
+  '03 - Family.png',
+  '04 - Grand Entrance (10.30).png',
+  '05 - Aarathi Welcome (11.00).png',
+  "06 - Maternal Uncle's Ceremony (11.30).png",
+  '07 - Blessings (12.00).png',
+  '08 - Lunch (12.30).png',
+  '09 - Photography (1.00).png',
+  '10 - Cake Cutting (2.30).png',
+  '11 - No Presents.png'
+].map(name => 'assets/images/' + encodeURIComponent(name).replace(/'/g, '%27'));
+
+const intro = document.getElementById('intro');
+const app = document.getElementById('app');
+const viewer = document.getElementById('viewer');
+const img = document.getElementById('pageImage');
+const dots = document.getElementById('dots');
+const pageCount = document.getElementById('pageCount');
+const finalActions = document.getElementById('finalActions');
+const music = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicBtn');
+let index = 0;
+let changing = false;
+let musicPlaying = false;
+let startX = 0, startY = 0;
+
+function buildDots(){
+  dots.innerHTML = '';
+  pages.forEach((_,i)=>{
+    const s = document.createElement('span');
+    s.className = 'dot' + (i===0 ? ' active' : '');
+    dots.appendChild(s);
+  });
+}
+function render(){
+  changing = true;
+  viewer.classList.add('changing');
+  const preload = new Image();
+  preload.onload = () => {
+    img.src = pages[index];
+    pageCount.textContent = `${index+1} / ${pages.length}`;
+    [...dots.children].forEach((d,i)=>d.classList.toggle('active',i===index));
+    finalActions.classList.toggle('hidden', index !== pages.length-1);
+    setTimeout(()=>{viewer.classList.remove('changing'); changing=false;},80);
+  };
+  preload.src = pages[index];
+}
+async function requestFull(){
+  try{
+    const el = document.documentElement;
+    if(el.requestFullscreen) await el.requestFullscreen();
+    else if(el.webkitRequestFullscreen) await el.webkitRequestFullscreen();
+  }catch(e){}
+  setTimeout(()=>window.scrollTo(0,1),120);
+}
+async function playMusic(){
+  try{
+    await music.play();
+    musicPlaying = true;
+    musicBtn.textContent = '♫';
+    musicBtn.classList.add('playing');
+  }catch(e){}
+}
+async function begin(){
+  await requestFull();
+  intro.classList.add('hidden');
+  app.classList.remove('hidden');
+  render();
+  playMusic();
+  pages.slice(1).forEach(src=>{const p=new Image(); p.src=src;});
+}
+function go(i){
+  if(changing) return;
+  const next = Math.max(0, Math.min(pages.length-1, i));
+  if(next === index) return;
+  index = next;
+  render();
+}
+function shareInvite(){
+  const data = {title:"Varmisha's Invitation", text:"Please join us for Varmisha's celebration.", url:'https://varmisha.netlify.app/'};
+  if(navigator.share) navigator.share(data).catch(()=>{});
+  else navigator.clipboard?.writeText(data.url);
+}
+
+document.getElementById('beginBtn').addEventListener('click', begin);
+document.getElementById('fullscreenBtn').addEventListener('click', requestFull);
+document.getElementById('nextZone').addEventListener('click', ()=>go(index+1));
+document.getElementById('prevZone').addEventListener('click', ()=>go(index-1));
+document.getElementById('homeBtn').addEventListener('click', ()=>go(0));
+musicBtn.addEventListener('click', async ()=>{
+  if(musicPlaying){music.pause(); musicPlaying=false; musicBtn.textContent='♪'; musicBtn.classList.remove('playing');}
+  else await playMusic();
+});
+document.getElementById('shareTop').addEventListener('click', shareInvite);
+document.getElementById('shareBtn').addEventListener('click', shareInvite);
+document.getElementById('qrBtn').addEventListener('click', ()=>document.getElementById('qrModal').classList.remove('hidden'));
+document.getElementById('closeQr').addEventListener('click', ()=>document.getElementById('qrModal').classList.add('hidden'));
+document.getElementById('qrModal').addEventListener('click', e=>{if(e.target.id==='qrModal') e.target.classList.add('hidden')});
+viewer.addEventListener('touchstart',e=>{startX=e.changedTouches[0].clientX; startY=e.changedTouches[0].clientY;},{passive:true});
+viewer.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-startX, dy=e.changedTouches[0].clientY-startY;
+  if(Math.max(Math.abs(dx),Math.abs(dy))<35) return;
+  if(Math.abs(dx)>Math.abs(dy)) dx<0?go(index+1):go(index-1); else dy<0?go(index+1):go(index-1);
+},{passive:true});
+document.addEventListener('keydown',e=>{if(app.classList.contains('hidden'))return; if(['ArrowRight','ArrowDown',' '].includes(e.key))go(index+1); if(['ArrowLeft','ArrowUp'].includes(e.key))go(index-1);});
+window.addEventListener('orientationchange',()=>setTimeout(()=>window.scrollTo(0,1),250));
+buildDots();
+</script>
 </body>
 </html>

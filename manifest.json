@@ -1,10 +1,10 @@
 {
-  "name": "Varmisha's Manchal Neerattu Vizha",
+  "name": "Varmisha Premium Invitation",
   "short_name": "Varmisha",
   "start_url": "/",
   "display": "fullscreen",
-  "background_color": "#f7bfd1",
-  "theme_color": "#000000",
+  "background_color": "#2b0f22",
+  "theme_color": "#2b0f22",
   "icons": [
     {
       "src": "assets/icons/icon-192.png",
