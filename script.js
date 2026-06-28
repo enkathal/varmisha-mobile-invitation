@@ -16,6 +16,7 @@ const pages = [
 const intro = document.getElementById('intro');
 const app = document.getElementById('app');
 const viewer = document.getElementById('viewer');
+const frame = document.querySelector('.phone-frame');
 const img = document.getElementById('pageImage');
 const loading = document.getElementById('loading');
 const dots = document.getElementById('dots');
@@ -43,7 +44,9 @@ function render(){
     img.src = pages[index];
     pageCount.textContent = `${index + 1} / ${pages.length}`;
     [...dots.children].forEach((d, i) => d.classList.toggle('active', i === index));
-    finalActions.classList.toggle('hidden', index !== pages.length - 1);
+    const isFinal = index === pages.length - 1;
+    finalActions.classList.toggle('hidden', !isFinal);
+    frame.classList.toggle('final-page', isFinal);
     loading.classList.add('hidden');
     setTimeout(()=> viewer.classList.remove('changing'), 40);
   };
@@ -63,7 +66,25 @@ function go(to){
 function next(){ go(index + 1); }
 function prev(){ go(index - 1); }
 
+function hideBrowserBar(){
+  try{
+    window.scrollTo(0, 1);
+    setTimeout(()=>window.scrollTo(0, 1), 250);
+    setTimeout(()=>window.scrollTo(0, 1), 700);
+  }catch(e){}
+}
+
+async function enterFullscreen(){
+  try{
+    const el = document.documentElement;
+    if(el.requestFullscreen) await el.requestFullscreen();
+    else if(el.webkitRequestFullscreen) await el.webkitRequestFullscreen();
+  }catch(e){}
+}
+
 function begin(){
+  enterFullscreen();
+  hideBrowserBar();
   intro.classList.add('hidden');
   app.classList.remove('hidden');
   render();
