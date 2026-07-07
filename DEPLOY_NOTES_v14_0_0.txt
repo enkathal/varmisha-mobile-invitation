@@ -1,0 +1,18 @@
+EventLens Invitation v14.0.0 SAFE Production Master
+
+Base:
+- Built from the uploaded working v13.1.5 Production Release (4).
+
+Changed only:
+- Browser title and Open Graph/Twitter preview tags
+- Root redirect: / and /index.html -> /varmisha
+- Welcome subtitle wording
+- QR popup wording
+- Share URL fixed to https://invite.janaeventlens.com/varmisha
+- QR image path kept as assets/qr/varmisha-qr.png if present
+
+Deployment:
+- Upload the CONTENTS of this folder to the GitHub repository root.
+- Do not upload this parent folder itself.
+- Wait for Cloudflare Pages deployment.
+- Test https://invite.janaeventlens.com/varmisha
