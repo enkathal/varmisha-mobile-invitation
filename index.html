@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=yes" />
 <meta name="theme-color" content="#2b0f22" />
-<title>Varmisha's Manjal Neerattu Vizha</title>
+<title>EventLens Invitation v13.1.5 Page 13 Branding Home</title>
 <link rel="manifest" href="manifest.json" />
 <link rel="icon" href="favicon.png" />
 <style>
@@ -1453,7 +1453,7 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
 
 <script id="v1231-share-js">
 (function(){
-  const inviteUrl = 'https://invite.janaeventlens.com/varmisha/varmisha';
+  const inviteUrl = 'https://invite.janaeventlens.com/varmisha';
   const shareTitle = "Varmisha's Manchal Neerattu Vizha";
   const shareText = "You are warmly invited to Varmisha's Manchal Neerattu Vizha. Please open the invitation:";
   function showToast(message){
@@ -1597,5 +1597,16 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
 })();
 </script>
 
+
+<script id="v1323-url-display-fix">
+// v13.2.3: Display /varmisha in the browser address bar without redirecting or reloading.
+(function(){
+  try{
+    if (window.location.hostname === 'invite.janaeventlens.com' && window.location.pathname === '/') {
+      window.history.replaceState(null, '', '/varmisha');
+    }
+  }catch(e){}
+})();
+</script>
 </body>
 </html>

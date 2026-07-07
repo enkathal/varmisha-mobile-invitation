@@ -1,6 +1,6 @@
-EventLens Invitation v13.2.2 Title Only Fix
-
-Base: v13.2 TRUE Stable working version.
-Changed only browser page title / share title text.
-No redirect changes.
-Upload contents of this folder to GitHub main.
+v13.2.3 URL Display Fix
+- Built from v13.2 TRUE Stable.
+- No redirect changes.
+- Adds history.replaceState only to show /varmisha when landing on root.
+- Fixes share URL duplicate /varmisha/varmisha.
+- Updates browser title to Tamil + English.
