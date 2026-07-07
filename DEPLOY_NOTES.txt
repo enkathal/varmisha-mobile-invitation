@@ -1,0 +1,9 @@
+EventLens Invitation v13.2 Stable
+
+Clean stable build based on the last working GitHub version with safe sharing/SEO URL fixes.
+
+Upload the files inside this folder to GitHub main, not the folder itself.
+
+Test:
+https://invite.janaeventlens.com
+https://invite.janaeventlens.com/varmisha
