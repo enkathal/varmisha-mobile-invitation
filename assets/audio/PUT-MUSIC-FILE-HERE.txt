@@ -1,2 +1,0 @@
-Put your music file here and rename it to music.mp3
-The website music button will play assets/audio/music.mp3 if it exists.
