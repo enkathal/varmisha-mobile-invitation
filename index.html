@@ -665,7 +665,7 @@ body.show-jana-footer #jana-footer{
   <div class="qr-card">
     <h2>Share this Invitation</h2>
     <img src="assets/qr/varmisha-qr.png" alt="Varmisha QR code">
-    <p>invite.janaeventlens.com<br><small>Scan the QR code or tap Share Invitation to send it to your family and friends.</small></p>
+    <p>invite.janaeventlens.com/varmisha<br><small>Scan the QR code or tap Share Invitation to send it to your family and friends.</small></p>
     <button type="button" class="btn share-invitation-btn" id="shareInvitationBtn">📤 Share Invitation</button>
     <button class="btn" id="closeQr">Close</button>
   </div>
@@ -1443,7 +1443,7 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
 
 <script id="v1231-share-js">
 (function(){
-  const inviteUrl = 'https://invite.janaeventlens.com/';
+  const inviteUrl = 'https://invite.janaeventlens.com/varmisha';
   const shareTitle = "Varmisha's Manchal Neerattu Vizha";
   const shareText = "You are warmly invited to Varmisha's Manchal Neerattu Vizha. Please open the invitation:";
   function showToast(message){
@@ -1483,7 +1483,7 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
       temp.focus();
       temp.select();
       try{ document.execCommand('copy'); showToast('Invitation link copied ❤️'); }
-      catch(e2){ showToast('Please copy: invite.janaeventlens.com'); }
+      catch(e2){ showToast('Please copy: invite.janaeventlens.com/varmisha'); }
       temp.remove();
     }
   }
