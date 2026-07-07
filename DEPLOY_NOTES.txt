@@ -1,6 +1,6 @@
-EventLens Invitation v13.2 TRUE Stable
+EventLens Invitation v13.2.2 Title Only Fix
 
-Base: original GitHub working ZIP: varmisha-mobile-invitation-main(1).zip
-Change: service worker/PWA cache disabled to prevent old deployments from being served.
-Upload: upload the CONTENTS of this folder to GitHub main, including assets folder.
-Test: https://invite.janaeventlens.com and https://invite.janaeventlens.com/varmisha
+Base: v13.2 TRUE Stable working version.
+Changed only browser page title / share title text.
+No redirect changes.
+Upload contents of this folder to GitHub main.
