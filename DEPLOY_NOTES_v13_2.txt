@@ -1,0 +1,23 @@
+EventLens Invitation v13.2 Production Clean
+
+Built as a clean recovery/stable production release.
+
+Important:
+- Upload the CONTENTS of this folder to GitHub root.
+- Do NOT upload this parent folder itself.
+- Repository root must show: assets, index.html, _redirects, manifest.json, sw.js, favicon.png.
+- Cloudflare Pages will deploy automatically.
+
+Clean fixes:
+- Cloudflare routing fixed using _redirects:
+  /varmisha -> /index.html
+  /*        -> /index.html
+- Removed temporary cache-reset script from index.html.
+- Service worker changed to network-first/no-cache reset.
+- QR image path fixed to assets/qr/varmisha-qr.png.
+- Share URL fixed to https://invite.janaeventlens.com/varmisha.
+- Open Graph/WhatsApp preview title fixed.
+
+Test after deployment:
+1. https://invite.janaeventlens.com/varmisha?test=132
+2. https://invite.janaeventlens.com/assets/qr/varmisha-qr.png
