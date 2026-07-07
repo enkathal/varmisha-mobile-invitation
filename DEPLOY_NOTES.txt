@@ -1,6 +1,6 @@
-v13.2.3 URL Display Fix
-- Built from v13.2 TRUE Stable.
-- No redirect changes.
-- Adds history.replaceState only to show /varmisha when landing on root.
-- Fixes share URL duplicate /varmisha/varmisha.
-- Updates browser title to Tamil + English.
+v13.2.4 Title + Share Preview Fix
+
+Changes only title/share metadata and share text.
+No redirect changes. No layout changes. No service worker caching.
+
+Upload contents of this folder to GitHub main.
