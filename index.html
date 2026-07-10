@@ -1620,5 +1620,73 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
   }catch(e){}
 })();
 </script>
+
+<!-- EventLens v16.5.0 Dual-Domain Invitation Analytics -->
+<script id="eventlens-v1650-invitation-analytics">
+(function(){
+  'use strict';
+  const ENDPOINT = 'https://gallery.janaeventlens.com/analytics/collect';
+  const SLUG = 'varmisha';
+  const pageSource = new URLSearchParams(location.search).get('src') ||
+                     new URLSearchParams(location.search).get('source') || '';
+  const liveImages = [];
+
+  function send(action, page){
+    const q = new URLSearchParams({
+      slug: SLUG,
+      action: action,
+      page: page || 'invite',
+      format: 'pixel',
+      v: '16.5.0',
+      t: String(Date.now())
+    });
+    if(pageSource) q.set('source', pageSource);
+    const img = new Image(1,1);
+    liveImages.push(img);
+    img.onload = img.onerror = function(){
+      const i = liveImages.indexOf(img);
+      if(i >= 0) liveImages.splice(i,1);
+    };
+    img.src = ENDPOINT + '?' + q.toString();
+  }
+
+  function bind(id, action){
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('click', function(){ send(action, 'invite'); }, {passive:true});
+  }
+
+  // Exactly one invite-domain open. Server-side gallery tracking remains separate.
+  send('invitation_open', 'invite');
+
+  ['shareTop','shareBtn','shareInvitationBtn'].forEach(id => bind(id, 'share_click'));
+  ['rsvpBtn','rsvpYes','rsvpNo'].forEach(id => bind(id, 'rsvp_click'));
+  ['directionsBtn','directionsQuick','googleMaps','appleMaps','wazeMaps'].forEach(id => bind(id, 'directions_click'));
+  ['blessBtn','blessQuick','sendBlessing'].forEach(id => bind(id, 'blessings_click'));
+  ['galleryQuick'].forEach(id => bind(id, 'invite_gallery_click'));
+
+  document.addEventListener('click', function(e){
+    const target = e.target.closest('[data-page13-action="gallery"], a[href*="gallery.janaeventlens.com"]');
+    if(target) send('invite_gallery_click', 'invite');
+  }, {passive:true});
+
+  // Shared links carry attribution to the next invitation recipient.
+  const originalShare = navigator.share ? navigator.share.bind(navigator) : null;
+  if(originalShare){
+    navigator.share = function(data){
+      try{
+        if(data && data.url && data.url.indexOf('invite.janaeventlens.com') >= 0){
+          const u = new URL(data.url);
+          if(!u.searchParams.get('src')) u.searchParams.set('src','share');
+          data = Object.assign({}, data, {url:u.toString()});
+        }
+      }catch(_){}
+      return originalShare(data);
+    };
+  }
+
+  window.EventLensInviteAnalytics = {send:send, version:'16.5.0'};
+})();
+</script>
+
 </body>
 </html>
