@@ -860,6 +860,29 @@ body.show-jana-footer #jana-footer{
 }
 </style>
 
+
+<style id="v1718-whatsapp-music-fix">
+.page13-actions .page13-whatsapp-icon{
+  position:relative!important;
+  z-index:2147483500!important;
+  pointer-events:auto!important;
+  cursor:pointer!important;
+  touch-action:manipulation!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  padding:4px!important;
+  min-height:44px!important;
+}
+.page13-actions .page13-whatsapp-icon .page13-wa-svg{
+  display:block!important;
+  width:42px!important;
+  height:42px!important;
+  pointer-events:none!important;
+  filter:drop-shadow(0 8px 16px rgba(0,0,0,.20));
+}
+</style>
+
 </head>
 <body>
 <div class="bg"></div>
@@ -897,7 +920,13 @@ body.show-jana-footer #jana-footer{
           <button type="button" class="soft" data-page13-action="rsvp">💛 RSVP</button>
           <button type="button" class="soft" data-page13-action="share">📤 Share</button>
           <button type="button" class="soft" data-page13-action="bless">💌 Blessings</button>
-          <a data-page13-action="whatsapp-contact" target="_blank" rel="noopener" class="soft page13-whatsapp-icon" href="https://wa.me/15199917293?text=Hello%20Jana%2C%20I%20am%20contacting%20you%20about%20Varmisha%27s%20event." target="_blank" rel="noopener" aria-label="WhatsApp Contact" title="WhatsApp Contact"><span class="wa-logo">☎</span></a>
+          <a class="soft page13-whatsapp-icon"
+             data-page13-action="whatsapp-contact"
+             href="https://wa.me/15199917293?text=Hello%20Jana%2C%20I%20am%20contacting%20you%20about%20Varmisha%27s%20event."
+             target="_blank"
+             rel="noopener"
+             aria-label="WhatsApp Contact"
+             title="WhatsApp Contact"><svg class="page13-wa-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#25D366"/><path fill="white" d="M23.5 18.9c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.3.5 1.7.7.7.2 1.4.2 1.9.1.6-.1 1.8-.8 2.1-1.6.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg></a>
           <button type="button" class="soft" data-page13-action="timeline">🕒 Timeline</button>
           <button type="button" class="soft" data-page13-action="directions">📍 Directions</button>
         </div>
@@ -2325,66 +2354,7 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
 
 
 
-<script id="eventlens-v1715-return-music">
-(function(){
-  const RETURN_KEY='el_invite_return_state_v1715';
 
-  function saveState(){
-    try{
-      const pageCount=document.getElementById('pageCount')?.textContent||'';
-      const music=document.getElementById('bgMusic');
-      sessionStorage.setItem(RETURN_KEY,JSON.stringify({
-        pageCount,
-        musicWasPlaying:!!(music && !music.paused),
-        savedAt:Date.now()
-      }));
-    }catch(e){}
-  }
-
-  function tryResumeMusic(){
-    const music=document.getElementById('bgMusic');
-    const musicBtn=document.getElementById('musicBtn');
-    if(!music) return;
-    const resume=async()=>{
-      try{
-        music.muted=false;
-        music.volume=1;
-        await music.play();
-        if(musicBtn){
-          musicBtn.textContent='♫';
-          musicBtn.classList.add('playing');
-        }
-      }catch(e){}
-    };
-    // Browsers often require a user gesture after returning.
-    resume();
-    ['click','touchstart','pointerdown'].forEach(evt=>{
-      document.addEventListener(evt,resume,{once:true,passive:true});
-    });
-  }
-
-  document.addEventListener('click',function(e){
-    const gallery=e.target.closest?.('#galleryReturnPill,[data-page13-action="gallery"],#page13FindPhotosDirect');
-    if(gallery) saveState();
-  },true);
-
-  window.addEventListener('pageshow',function(ev){
-    let state=null;
-    try{state=JSON.parse(sessionStorage.getItem(RETURN_KEY)||'null')}catch(e){}
-    if(!state) return;
-    // Restore invitation view if the browser resumed from history/back-forward cache.
-    const intro=document.getElementById('intro');
-    const app=document.getElementById('app');
-    if(intro && app){
-      intro.classList.add('hidden');
-      app.classList.remove('hidden');
-    }
-    if(state.musicWasPlaying){
-      setTimeout(tryResumeMusic,250);
-    }
-  });
-})();
-</script>
 
 
 <script id="eventlens-v1715-whatsapp-contact">
@@ -2428,6 +2398,101 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
   if(page13)new MutationObserver(sync).observe(page13,{attributes:true,attributeFilter:['class']});
   document.addEventListener('DOMContentLoaded',sync);
   window.addEventListener('pageshow',sync);
+})();
+</script>
+
+
+<script id="eventlens-v1718-always-music">
+(function(){
+  const music=document.getElementById('bgMusic');
+  const musicBtn=document.getElementById('musicBtn');
+  if(!music) return;
+
+  let deliberatelyOff=false;
+
+  function updatePlayingUi(){
+    if(musicBtn){
+      musicBtn.textContent='♫';
+      musicBtn.classList.add('playing');
+    }
+    try{window.musicPlaying=true}catch(e){}
+  }
+
+  async function playMusicNow(){
+    if(deliberatelyOff) return false;
+    try{
+      music.muted=false;
+      music.volume=1;
+      await music.play();
+      updatePlayingUi();
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
+  // Every gallery visit marks music to resume when the guest returns.
+  document.addEventListener('click',function(e){
+    const target=e.target?.closest?.('#galleryReturnPill,#page13FindPhotosDirect,[data-page13-action="gallery"]');
+    if(target){
+      deliberatelyOff=false;
+      try{sessionStorage.setItem('el_music_should_resume','1')}catch(_e){}
+    }
+  },true);
+
+  // Respect an intentional tap on the music button.
+  musicBtn?.addEventListener('click',function(){
+    setTimeout(function(){
+      deliberatelyOff=music.paused;
+      try{sessionStorage.setItem('el_music_should_resume',deliberatelyOff?'0':'1')}catch(e){}
+    },120);
+  },true);
+
+  function restoreMusic(){
+    let shouldResume=true;
+    try{
+      if(sessionStorage.getItem('el_music_should_resume')==='0') shouldResume=false;
+    }catch(e){}
+    if(!shouldResume) return;
+    deliberatelyOff=false;
+    playMusicNow();
+  }
+
+  window.addEventListener('pageshow',function(){setTimeout(restoreMusic,120)});
+  window.addEventListener('focus',function(){setTimeout(restoreMusic,80)});
+  document.addEventListener('visibilitychange',function(){
+    if(document.visibilityState==='visible') setTimeout(restoreMusic,80);
+  });
+
+  // Autoplay may be blocked after Back navigation. The first interaction
+  // anywhere resumes it automatically.
+  ['pointerdown','touchstart','click'].forEach(function(evt){
+    document.addEventListener(evt,function(){
+      if(!deliberatelyOff && music.paused) playMusicNow();
+    },{capture:true,passive:true});
+  });
+})();
+</script>
+
+
+<script id="eventlens-v1718-page13-whatsapp">
+(function(){
+  const url='https://wa.me/15199917293?text=Hello%20Jana%2C%20I%20am%20contacting%20you%20about%20Varmisha%27s%20event.';
+  function handle(e){
+    const link=e.target?.closest?.('[data-page13-action="whatsapp-contact"]');
+    if(!link) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+    try{
+      if(window.EventLensTrack)window.EventLensTrack('whatsapp_contact_click','page13');
+    }catch(_e){}
+    window.open(url,'_blank','noopener');
+    return false;
+  }
+  document.addEventListener('click',handle,true);
+  document.addEventListener('pointerup',handle,true);
+  document.addEventListener('touchend',handle,{capture:true,passive:false});
 })();
 </script>
 
