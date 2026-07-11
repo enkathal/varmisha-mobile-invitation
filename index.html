@@ -792,6 +792,18 @@ body.show-jana-footer #jana-footer{
 .reaction-fab{display:none!important}
 </style>
 
+
+<style id="v1715-page13-extra-action">
+.page13-actions{
+  grid-template-columns:1fr 1fr!important;
+}
+.page13-actions [data-page13-action="whatsapp-contact"]{
+  background:rgba(255,255,255,.82)!important;
+  color:#632341!important;
+  border:1px solid rgba(255,255,255,.45)!important;
+}
+</style>
+
 </head>
 <body>
 <div class="bg"></div>
@@ -830,6 +842,7 @@ body.show-jana-footer #jana-footer{
           <button type="button" class="soft" data-page13-action="share">📤 Share</button>
           <button type="button" class="soft" data-page13-action="bless">💌 Blessings</button>
           <button type="button" class="soft" data-page13-action="react">💖 React</button>
+          <a class="soft" data-page13-action="whatsapp-contact" href="https://wa.me/15199917293" target="_blank" rel="noopener">💬 WhatsApp</a>
           <button type="button" class="soft" data-page13-action="timeline">🕒 Timeline</button>
           <button type="button" class="soft" data-page13-action="directions">📍 Directions</button>
         </div>
@@ -2262,6 +2275,81 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
     e.preventDefault();e.stopPropagation();
     const modal=document.getElementById('feedbackModalV1710');
     if(modal)modal.hidden=false;
+  },true);
+})();
+</script>
+
+
+<script id="eventlens-v1715-return-music">
+(function(){
+  const RETURN_KEY='el_invite_return_state_v1715';
+
+  function saveState(){
+    try{
+      const pageCount=document.getElementById('pageCount')?.textContent||'';
+      const music=document.getElementById('bgMusic');
+      sessionStorage.setItem(RETURN_KEY,JSON.stringify({
+        pageCount,
+        musicWasPlaying:!!(music && !music.paused),
+        savedAt:Date.now()
+      }));
+    }catch(e){}
+  }
+
+  function tryResumeMusic(){
+    const music=document.getElementById('bgMusic');
+    const musicBtn=document.getElementById('musicBtn');
+    if(!music) return;
+    const resume=async()=>{
+      try{
+        music.muted=false;
+        music.volume=1;
+        await music.play();
+        if(musicBtn){
+          musicBtn.textContent='♫';
+          musicBtn.classList.add('playing');
+        }
+      }catch(e){}
+    };
+    // Browsers often require a user gesture after returning.
+    resume();
+    ['click','touchstart','pointerdown'].forEach(evt=>{
+      document.addEventListener(evt,resume,{once:true,passive:true});
+    });
+  }
+
+  document.addEventListener('click',function(e){
+    const gallery=e.target.closest?.('#galleryReturnPill,[data-page13-action="gallery"],#page13FindPhotosDirect');
+    if(gallery) saveState();
+  },true);
+
+  window.addEventListener('pageshow',function(ev){
+    let state=null;
+    try{state=JSON.parse(sessionStorage.getItem(RETURN_KEY)||'null')}catch(e){}
+    if(!state) return;
+    // Restore invitation view if the browser resumed from history/back-forward cache.
+    const intro=document.getElementById('intro');
+    const app=document.getElementById('app');
+    if(intro && app){
+      intro.classList.add('hidden');
+      app.classList.remove('hidden');
+    }
+    if(state.musicWasPlaying){
+      setTimeout(tryResumeMusic,250);
+    }
+  });
+})();
+</script>
+
+
+<script id="eventlens-v1715-whatsapp-contact">
+(function(){
+  document.addEventListener('click',function(e){
+    const btn=e.target.closest?.('[data-page13-action="whatsapp-contact"]');
+    if(!btn) return;
+    try{
+      if(window.EventLensTrack) window.EventLensTrack('whatsapp_contact_click','invitation');
+    }catch(_e){}
   },true);
 })();
 </script>
