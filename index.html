@@ -804,6 +804,62 @@ body.show-jana-footer #jana-footer{
 }
 </style>
 
+
+<style id="v1716-final-page-experience">
+.page13-actions{
+  grid-template-columns:1fr 1fr!important;
+  gap:9px!important;
+}
+.page13-actions [data-page13-action="home"]{
+  grid-column:auto!important;
+}
+.page13-actions .page13-whatsapp-icon{
+  min-height:44px!important;
+  padding:0!important;
+  border-radius:999px!important;
+  background:#25D366!important;
+  border:1px solid rgba(255,255,255,.55)!important;
+  color:#fff!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-decoration:none!important;
+  box-shadow:0 9px 24px rgba(42,6,26,.18)!important;
+}
+.page13-actions .page13-whatsapp-icon .wa-logo{
+  width:29px;height:29px;border-radius:50%;
+  background:#fff;color:#25D366;
+  display:grid;place-items:center;
+  font:900 17px Arial,sans-serif;
+}
+.page13-react-float{
+  position:fixed;
+  right:14px;
+  bottom:calc(76px + env(safe-area-inset-bottom,0px));
+  z-index:2147483400;
+  width:48px;height:48px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.55);
+  background:linear-gradient(135deg,#f7bdd1,#d53391);
+  color:#fff;font-size:22px;
+  display:none;place-items:center;
+  box-shadow:0 12px 30px rgba(0,0,0,.28);
+  cursor:pointer;
+}
+.page13-react-float.show{display:grid!important}
+.gallery-return-pill{
+  left:12px!important;
+  bottom:calc(76px + env(safe-area-inset-bottom,0px))!important;
+}
+@media(max-width:420px){
+  .page13-react-float{
+    right:10px;
+    bottom:calc(72px + env(safe-area-inset-bottom,0px));
+    width:46px;height:46px;
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="bg"></div>
@@ -841,8 +897,7 @@ body.show-jana-footer #jana-footer{
           <button type="button" class="soft" data-page13-action="rsvp">💛 RSVP</button>
           <button type="button" class="soft" data-page13-action="share">📤 Share</button>
           <button type="button" class="soft" data-page13-action="bless">💌 Blessings</button>
-          <button type="button" class="soft" data-page13-action="react">💖 React</button>
-          <a class="soft" data-page13-action="whatsapp-contact" href="https://wa.me/15199917293" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a data-page13-action="whatsapp-contact" target="_blank" rel="noopener" class="soft page13-whatsapp-icon" href="https://wa.me/15199917293?text=Hello%20Jana%2C%20I%20am%20contacting%20you%20about%20Varmisha%27s%20event." target="_blank" rel="noopener" aria-label="WhatsApp Contact" title="WhatsApp Contact"><span class="wa-logo">☎</span></a>
           <button type="button" class="soft" data-page13-action="timeline">🕒 Timeline</button>
           <button type="button" class="soft" data-page13-action="directions">📍 Directions</button>
         </div>
@@ -1216,8 +1271,8 @@ musicBtn.addEventListener('click', async ()=>{
 async function openWhatsAppWithMessage(isComing){
   const name = (document.getElementById('guestName')?.value || '').trim();
   const resultText = isComing
-    ? 'Thank you for confirming! We are eagerly waiting to celebrate with you.'
-    : 'Thank you for letting us know. We will miss you and send our warm wishes.';
+    ? '🎉 Thank you for confirming! We are eagerly waiting to welcome you to Varmisha's Manjal Neerattu Vizha.'
+    : 'Thank you for letting us know. We will miss celebrating with you and hope to see you on another special occasion.';
   const btnYes=document.getElementById('rsvpYes');
   const btnNo=document.getElementById('rsvpNo');
   if(btnYes)btnYes.disabled=true;
@@ -2070,9 +2125,9 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
       <h2>How did you like the invitation?</h2>
       <p>Choose a reaction, rate it, and optionally leave a message.</p>
       <div class="reaction-options-v1710">
-        <button type="button" data-reaction="like">👍 Like</button>
+        <button type="button" data-reaction="like">👏 Amazing</button>
         <button type="button" data-reaction="love">❤️ Love</button>
-        <button type="button" data-reaction="beautiful">🎉 Beautiful</button>
+        <button type="button" data-reaction="beautiful">😍 Beautiful</button>
         <button type="button" data-reaction="blessings">🙏 Blessings</button>
       </div>
       <div class="star-row-v1710" aria-label="Rating">
@@ -2267,17 +2322,7 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
 </script>
 
 
-<script id="eventlens-v1714-page13-react">
-(function(){
-  document.addEventListener('click',function(e){
-    const btn=e.target.closest?.('[data-page13-action="react"]');
-    if(!btn)return;
-    e.preventDefault();e.stopPropagation();
-    const modal=document.getElementById('feedbackModalV1710');
-    if(modal)modal.hidden=false;
-  },true);
-})();
-</script>
+
 
 
 <script id="eventlens-v1715-return-music">
@@ -2351,6 +2396,38 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
       if(window.EventLensTrack) window.EventLensTrack('whatsapp_contact_click','invitation');
     }catch(_e){}
   },true);
+})();
+</script>
+
+<button id="page13ReactFloat" class="page13-react-float" type="button" aria-label="React to invitation">💖</button>
+
+<script id="eventlens-v1716-final-page-controller">
+(function(){
+  const reactBtn=document.getElementById('page13ReactFloat');
+  const modal=document.getElementById('feedbackModalV1710');
+  const viewer=document.getElementById('viewer');
+  const page13=document.getElementById('page13');
+
+  function isFinalPage(){
+    return !!(
+      viewer?.classList.contains('html-mode') ||
+      page13?.classList.contains('show')
+    );
+  }
+  function sync(){
+    reactBtn?.classList.toggle('show',isFinalPage());
+  }
+  reactBtn?.addEventListener('click',function(){
+    if(modal)modal.hidden=false;
+    try{
+      if(window.EventLensTrack)window.EventLensTrack('reaction_open','page13');
+    }catch(e){}
+  });
+
+  if(viewer)new MutationObserver(sync).observe(viewer,{attributes:true,attributeFilter:['class']});
+  if(page13)new MutationObserver(sync).observe(page13,{attributes:true,attributeFilter:['class']});
+  document.addEventListener('DOMContentLoaded',sync);
+  window.addEventListener('pageshow',sync);
 })();
 </script>
 
