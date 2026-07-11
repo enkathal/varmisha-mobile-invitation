@@ -778,6 +778,20 @@ body.show-jana-footer #jana-footer{
 }
 </style>
 
+
+<style id="v1714-final-page-reaction-only">
+.reaction-fab{display:none!important}
+</style>
+
+
+<style id="v1714-whatsapp-clear">
+.gallery-return-pill{
+  left:12px!important;
+  bottom:calc(76px + env(safe-area-inset-bottom,0px))!important;
+}
+.reaction-fab{display:none!important}
+</style>
+
 </head>
 <body>
 <div class="bg"></div>
@@ -815,6 +829,7 @@ body.show-jana-footer #jana-footer{
           <button type="button" class="soft" data-page13-action="rsvp">💛 RSVP</button>
           <button type="button" class="soft" data-page13-action="share">📤 Share</button>
           <button type="button" class="soft" data-page13-action="bless">💌 Blessings</button>
+          <button type="button" class="soft" data-page13-action="react">💖 React</button>
           <button type="button" class="soft" data-page13-action="timeline">🕒 Timeline</button>
           <button type="button" class="soft" data-page13-action="directions">📍 Directions</button>
         </div>
@@ -1185,18 +1200,41 @@ musicBtn.addEventListener('click', async ()=>{
   else await playMusic();
 });
 
-function openWhatsAppWithMessage(isComing){
+async function openWhatsAppWithMessage(isComing){
   const name = (document.getElementById('guestName')?.value || '').trim();
-  const signature = name ? `\n\n- ${name}` : '';
-  const message = isComing
-    ? `Hello Jana,\n\nWe are delighted to confirm that we will be attending Varmisha's Manjal Neerattu Vizha.\n\nLooking forward to celebrating together.${signature}`
-    : `Hello Jana,\n\nUnfortunately we won't be able to attend.\n\nWe wish Varmisha a wonderful celebration.${signature}`;
   const resultText = isComing
-    ? 'Thank you for confirming. We look forward to celebrating with you!'
-    : 'Thank you for letting us know. We will miss you.';
-  rsvpResult.textContent = resultText;
+    ? 'Thank you for confirming! We are eagerly waiting to celebrate with you.'
+    : 'Thank you for letting us know. We will miss you and send our warm wishes.';
+  const btnYes=document.getElementById('rsvpYes');
+  const btnNo=document.getElementById('rsvpNo');
+  if(btnYes)btnYes.disabled=true;
+  if(btnNo)btnNo.disabled=true;
+  rsvpResult.textContent='Saving your response...';
   rsvpResult.classList.remove('hidden');
-  window.open('https://wa.me/15199917293?text=' + encodeURIComponent(message), '_blank');
+  try{
+    const visitor=localStorage.getItem('el_invite_visitor_id') || '';
+    const session=sessionStorage.getItem('el_invite_session_id') || '';
+    const response=await fetch('https://gallery.janaeventlens.com/invitation/rsvp',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        event_slug:'varmisha',
+        guest_name:name,
+        response:isComing?'yes':'no',
+        visitor_id:visitor,
+        session_id:session
+      }),
+      mode:'cors'
+    });
+    if(!response.ok)throw new Error('Unable to save');
+    rsvpResult.textContent=resultText;
+    try{if(window.EventLensTrack)window.EventLensTrack(isComing?'rsvp_yes':'rsvp_no','invitation')}catch(e){}
+  }catch(e){
+    rsvpResult.textContent='We could not save your response. Please try again.';
+  }finally{
+    if(btnYes)btnYes.disabled=false;
+    if(btnNo)btnNo.disabled=false;
+  }
 }
 
 document.getElementById('rsvpBtn')?.addEventListener('click', ()=>{
@@ -2011,7 +2049,7 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
 
 
 <a id="galleryReturnPill" class="gallery-return-pill" href="https://gallery.janaeventlens.com/varmisha">📸 My Gallery</a>
-<button id="reactionFab" class="reaction-fab" type="button" aria-label="React to invitation">💖</button>
+
 <div id="feedbackModalV1710" class="feedback-modal-v1710" hidden>
   <section class="feedback-card-v1710">
     <div id="feedbackFormV1710">
@@ -2212,6 +2250,19 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
       el.style.pointerEvents='auto';
     });
   });
+})();
+</script>
+
+
+<script id="eventlens-v1714-page13-react">
+(function(){
+  document.addEventListener('click',function(e){
+    const btn=e.target.closest?.('[data-page13-action="react"]');
+    if(!btn)return;
+    e.preventDefault();e.stopPropagation();
+    const modal=document.getElementById('feedbackModalV1710');
+    if(modal)modal.hidden=false;
+  },true);
 })();
 </script>
 
