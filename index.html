@@ -661,6 +661,89 @@ body.show-jana-footer #jana-footer{
 @media(max-width:420px){.gallery-return-pill{font-size:11px;padding:8px 11px}.reaction-fab{width:42px;height:42px}.feedback-card-v1710{padding:20px 14px}}
 </style>
 
+
+<style id="v1711-controls-reaction-prompt">
+/* Preserve the invitation's original Share and QR controls at the top. */
+.viewer .topbar{
+  z-index:2147483000!important;
+}
+.viewer .topbar .icon-btn,
+.viewer .topbar .chip{
+  pointer-events:auto!important;
+}
+
+/* New controls live at the bottom and no longer cover Share or QR. */
+.gallery-return-pill{
+  position:fixed!important;
+  left:12px!important;
+  top:auto!important;
+  bottom:calc(14px + env(safe-area-inset-bottom,0px))!important;
+  z-index:2147483300!important;
+  min-height:44px!important;
+  padding:10px 14px!important;
+  border-radius:999px!important;
+  background:linear-gradient(135deg,#d8a64c,#fff2b0,#c9952f)!important;
+  border:1px solid rgba(255,255,255,.55)!important;
+  color:#55203f!important;
+  text-decoration:none!important;
+  font:900 12px Arial,sans-serif!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.24)!important;
+}
+.reaction-fab{
+  position:fixed!important;
+  right:12px!important;
+  top:auto!important;
+  bottom:calc(14px + env(safe-area-inset-bottom,0px))!important;
+  z-index:2147483300!important;
+  width:auto!important;
+  min-width:92px!important;
+  height:44px!important;
+  padding:0 14px!important;
+  border-radius:999px!important;
+  gap:7px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:rgba(92,20,57,.90)!important;
+  color:#fff!important;
+  font:900 12px Arial,sans-serif!important;
+}
+.reaction-fab::after{content:"React";font:900 12px Arial,sans-serif}
+
+/* The automatic prompt is visually clear but still optional. */
+.feedback-card-v1710.auto-prompt{
+  animation:v1711PromptRise .35s ease both;
+}
+@keyframes v1711PromptRise{
+  from{opacity:0;transform:translateY(14px) scale(.98)}
+  to{opacity:1;transform:none}
+}
+.feedback-prompt-label{
+  display:inline-block;
+  margin-bottom:8px;
+  padding:6px 11px;
+  border-radius:999px;
+  background:rgba(216,166,76,.18);
+  color:#7a3455;
+  font:900 11px Arial,sans-serif;
+  letter-spacing:.05em;
+}
+.feedback-maybe-later{
+  width:100%;
+  margin-top:8px;
+  border:0;
+  background:transparent;
+  color:#7a4560;
+  font:800 12px Arial,sans-serif;
+  text-decoration:underline;
+  cursor:pointer;
+}
+@media(max-width:420px){
+  .gallery-return-pill{font-size:11px!important;padding:9px 12px!important}
+  .reaction-fab{min-width:82px!important;padding:0 11px!important}
+}
+</style>
+
 </head>
 <body>
 <div class="bg"></div>
@@ -1898,6 +1981,7 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
 <div id="feedbackModalV1710" class="feedback-modal-v1710" hidden>
   <section class="feedback-card-v1710">
     <div id="feedbackFormV1710">
+      <span id="feedbackPromptLabelV1711" class="feedback-prompt-label" hidden>FINAL PAGE</span>
       <h2>How did you like the invitation?</h2>
       <p>Choose a reaction, rate it, and optionally leave a message.</p>
       <div class="reaction-options-v1710">
@@ -1916,7 +2000,7 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
       <div class="feedback-actions-v1710">
         <button id="feedbackCancelV1710" class="feedback-cancel-v1710" type="button">Close</button>
         <button id="feedbackSendV1710" class="feedback-send-v1710" type="button">Send Feedback</button>
-      </div>
+            <button id="feedbackMaybeLaterV1711" class="feedback-maybe-later" type="button">Maybe later</button>
     </div>
     <div id="feedbackThanksV1710" class="feedback-thanks-v1710" hidden>💖 Thank you for your feedback!</div>
   </section>
@@ -1996,6 +2080,103 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
   // Always visible and reliable. This fixes the missing conditional return button.
   document.getElementById('galleryReturnPill')?.addEventListener('click',()=>{
     try{if(window.EventLensTrack)window.EventLensTrack('back_to_gallery_click','invitation')}catch(e){}
+  });
+})();
+</script>
+
+
+<script id="eventlens-v1711-reaction-prompt">
+(function(){
+  const modal=document.getElementById('feedbackModalV1710');
+  const card=modal?.querySelector('.feedback-card-v1710');
+  const label=document.getElementById('feedbackPromptLabelV1711');
+  const maybe=document.getElementById('feedbackMaybeLaterV1711');
+  const cancel=document.getElementById('feedbackCancelV1710');
+  const fab=document.getElementById('reactionFab');
+
+  function alreadyPrompted(){
+    try{return sessionStorage.getItem('el_reaction_prompt_v1711')==='1'}catch(e){return false}
+  }
+  function markPrompted(){
+    try{sessionStorage.setItem('el_reaction_prompt_v1711','1')}catch(e){}
+  }
+  function showPrompt(){
+    if(!modal || alreadyPrompted()) return;
+    markPrompted();
+    if(label) label.hidden=false;
+    card?.classList.add('auto-prompt');
+    modal.hidden=false;
+  }
+  function hidePrompt(){
+    if(modal) modal.hidden=true;
+    if(label) label.hidden=true;
+    card?.classList.remove('auto-prompt');
+  }
+
+  maybe?.addEventListener('click',hidePrompt);
+  cancel?.addEventListener('click',hidePrompt);
+  fab?.addEventListener('click',()=>{
+    if(label) label.hidden=true;
+    card?.classList.remove('auto-prompt');
+  });
+
+  function onFinalPage(){
+    const page13=document.getElementById('page13');
+    const viewer=document.getElementById('viewer');
+    return !!(
+      page13?.classList.contains('show') ||
+      viewer?.classList.contains('html-mode')
+    );
+  }
+
+  let lastFinal=false;
+  function check(){
+    const nowFinal=onFinalPage();
+    if(nowFinal && !lastFinal && !alreadyPrompted()){
+      setTimeout(showPrompt,900);
+    }
+    lastFinal=nowFinal;
+  }
+
+  const page13=document.getElementById('page13');
+  const viewer=document.getElementById('viewer');
+  if(page13) new MutationObserver(check).observe(page13,{attributes:true,attributeFilter:['class']});
+  if(viewer) new MutationObserver(check).observe(viewer,{attributes:true,attributeFilter:['class']});
+
+  // Fallback for builds where the final page changes through image/page counters.
+  const pageCount=document.getElementById('pageCount');
+  if(pageCount){
+    new MutationObserver(()=>{
+      const text=(pageCount.textContent||'').trim();
+      const parts=text.split('/').map(x=>Number(x.trim()));
+      if(parts.length===2 && parts[0]===parts[1] && parts[1]>1 && !alreadyPrompted()){
+        setTimeout(showPrompt,900);
+      }
+    }).observe(pageCount,{childList:true,subtree:true,characterData:true});
+  }
+
+  // Do not interrupt immediately. This fallback only runs after meaningful viewing time.
+  setTimeout(()=>{
+    if(!alreadyPrompted() && onFinalPage()) showPrompt();
+  },45000);
+})();
+</script>
+
+
+<script id="eventlens-v1711-restore-top-controls">
+(function(){
+  document.addEventListener('DOMContentLoaded',function(){
+    const candidates=[
+      document.getElementById('shareTop'),
+      document.getElementById('qrTop'),
+      document.getElementById('shareBtn'),
+      document.getElementById('qrBtn')
+    ].filter(Boolean);
+    candidates.forEach(function(el){
+      el.style.display='';
+      el.style.visibility='visible';
+      el.style.pointerEvents='auto';
+    });
   });
 })();
 </script>
