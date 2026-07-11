@@ -1032,9 +1032,9 @@ body.show-jana-footer #jana-footer{
   <span class="page13-wa-mark"><svg class="page13-whatsapp-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#25D366"/><path fill="white" d="M23.5 18.9c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.3.5 1.7.7.7.2 1.4.2 1.9.1.6-.1 1.8-.8 2.1-1.6.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg></span>
   <span>WhatsApp</span>
 </a>
-          <button type="button" class="soft" data-page13-action="timeline" id="page13CalendarDirect">🕒 Timeline</button>
+          <button type="button" class="soft" data-page13-action="timeline">🕒 Timeline</button>
           <button type="button" class="soft" data-page13-action="directions">📍 Directions</button>
-          <button type="button" class="soft" data-page13-action="calendar">📅 Add to Calendar</button>
+          <button type="button" class="soft" data-page13-action="calendar" id="page13CalendarDirect">📅 Add to Calendar</button>
         </div>
         <button type="button" class="page13-home" data-page13-action="home" id="page13Home">⌂ Home</button>
         <div class="page13-brand">Created with ❤️ by <span>Jana</span></div>
@@ -1995,6 +1995,11 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
       return;
     }
     if(action === 'timeline'){ showModal('timelineModal'); return; }
+    if(action === 'calendar'){
+      if(typeof openCalendar === 'function') openCalendar();
+      else showModal('calendarModal');
+      return;
+    }
     if(action === 'directions'){
       if(typeof openDirections === 'function') openDirections();
       else showModal('directionsModal');
