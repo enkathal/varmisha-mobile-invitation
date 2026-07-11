@@ -629,6 +629,38 @@ body.show-jana-footer #jana-footer{
 }
 </style>
 
+
+<style id="v1710-reactions-feedback">
+.gallery-return-pill{
+  position:fixed;left:12px;top:calc(12px + env(safe-area-inset-top,0px));
+  z-index:2147483500;display:flex;align-items:center;gap:6px;
+  min-height:42px;padding:9px 13px;border-radius:999px;
+  background:linear-gradient(135deg,#d8a64c,#fff2b0,#c9952f);
+  border:1px solid rgba(255,255,255,.55);color:#55203f;
+  text-decoration:none;font:900 12px Arial,sans-serif;
+  box-shadow:0 10px 28px rgba(0,0,0,.24);
+}
+.reaction-fab{
+  position:fixed;right:12px;top:calc(12px + env(safe-area-inset-top,0px));
+  z-index:2147483500;width:44px;height:44px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.5);background:rgba(92,20,57,.84);
+  color:#fff;font-size:21px;display:grid;place-items:center;
+  box-shadow:0 10px 28px rgba(0,0,0,.24);cursor:pointer;
+}
+.feedback-modal-v1710{position:fixed;inset:0;z-index:2147483600;display:grid;place-items:center;padding:18px;background:rgba(20,3,16,.76);backdrop-filter:blur(9px)}
+.feedback-modal-v1710[hidden]{display:none!important}
+.feedback-card-v1710{width:min(92vw,430px);max-height:90dvh;overflow:auto;border-radius:28px;padding:24px 18px;background:linear-gradient(160deg,#fff8fb,#ffe8f1 58%,#fff3d2);color:#632341;text-align:center;box-shadow:0 25px 80px rgba(0,0,0,.36)}
+.feedback-card-v1710 h2{margin:0 0 5px}.feedback-card-v1710>p{font:700 13px Arial,sans-serif;color:#7a4560}
+.reaction-options-v1710{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0}
+.reaction-options-v1710 button{min-height:46px;border:1px solid rgba(139,49,92,.18);border-radius:16px;background:#fff;color:#632341;font:900 13px Arial,sans-serif;cursor:pointer}
+.reaction-options-v1710 button.selected{background:linear-gradient(135deg,#d8a64c,#fff2b0);outline:3px solid rgba(139,49,92,.20)}
+.star-row-v1710{display:flex;justify-content:center;gap:5px;margin:11px 0}.star-row-v1710 button{border:0;background:transparent;font-size:31px;color:#c9a8b8;cursor:pointer;padding:2px}.star-row-v1710 button.active{color:#e3aa18}
+.feedback-card-v1710 input,.feedback-card-v1710 textarea{width:100%;border:1px solid rgba(139,49,92,.25);border-radius:15px;padding:12px 14px;margin:6px 0;font:600 14px Arial,sans-serif;color:#632341;background:rgba(255,255,255,.85)}
+.feedback-card-v1710 textarea{min-height:90px;resize:none}.feedback-actions-v1710{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.feedback-actions-v1710 button{border:0;border-radius:999px;padding:13px;font:900 13px Arial,sans-serif;cursor:pointer}.feedback-send-v1710{background:linear-gradient(135deg,#d8a64c,#fff2b0,#c9952f);color:#55203f}.feedback-cancel-v1710{background:#fff;color:#632341;border:1px solid rgba(139,49,92,.2)!important}
+.feedback-thanks-v1710{padding:18px;border-radius:18px;background:rgba(255,255,255,.7);font:900 14px Arial,sans-serif}
+@media(max-width:420px){.gallery-return-pill{font-size:11px;padding:8px 11px}.reaction-fab{width:42px;height:42px}.feedback-card-v1710{padding:20px 14px}}
+</style>
+
 </head>
 <body>
 <div class="bg"></div>
@@ -1687,7 +1719,7 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
 </script>
 
 
-<a id="backToGalleryBtn" class="back-to-gallery" href="https://gallery.janaeventlens.com/varmisha">📸 Back to My Gallery</a>
+
 
 
 <script id="eventlens-v1700-integration">
@@ -1857,6 +1889,114 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
   document.addEventListener('click', go, true);
   document.addEventListener('pointerup', go, true);
   document.addEventListener('touchend', go, {capture:true, passive:false});
+})();
+</script>
+
+
+<a id="galleryReturnPill" class="gallery-return-pill" href="https://gallery.janaeventlens.com/varmisha">📸 My Gallery</a>
+<button id="reactionFab" class="reaction-fab" type="button" aria-label="React to invitation">💖</button>
+<div id="feedbackModalV1710" class="feedback-modal-v1710" hidden>
+  <section class="feedback-card-v1710">
+    <div id="feedbackFormV1710">
+      <h2>How did you like the invitation?</h2>
+      <p>Choose a reaction, rate it, and optionally leave a message.</p>
+      <div class="reaction-options-v1710">
+        <button type="button" data-reaction="like">👍 Like</button>
+        <button type="button" data-reaction="love">❤️ Love</button>
+        <button type="button" data-reaction="beautiful">🎉 Beautiful</button>
+        <button type="button" data-reaction="blessings">🙏 Blessings</button>
+      </div>
+      <div class="star-row-v1710" aria-label="Rating">
+        <button type="button" data-star="1">★</button><button type="button" data-star="2">★</button>
+        <button type="button" data-star="3">★</button><button type="button" data-star="4">★</button>
+        <button type="button" data-star="5">★</button>
+      </div>
+      <input id="feedbackNameV1710" maxlength="120" placeholder="Your name (optional)">
+      <textarea id="feedbackMessageV1710" maxlength="1000" placeholder="Your feedback or message (optional)"></textarea>
+      <div class="feedback-actions-v1710">
+        <button id="feedbackCancelV1710" class="feedback-cancel-v1710" type="button">Close</button>
+        <button id="feedbackSendV1710" class="feedback-send-v1710" type="button">Send Feedback</button>
+      </div>
+    </div>
+    <div id="feedbackThanksV1710" class="feedback-thanks-v1710" hidden>💖 Thank you for your feedback!</div>
+  </section>
+</div>
+
+
+<script id="eventlens-v1710-feedback">
+(function(){
+  const FEEDBACK_URL='https://gallery.janaeventlens.com/invitation/feedback';
+  const SLUG='varmisha';
+  const modal=document.getElementById('feedbackModalV1710');
+  const fab=document.getElementById('reactionFab');
+  const cancel=document.getElementById('feedbackCancelV1710');
+  const send=document.getElementById('feedbackSendV1710');
+  const form=document.getElementById('feedbackFormV1710');
+  const thanks=document.getElementById('feedbackThanksV1710');
+  let reaction='', rating=0;
+
+  function visitorId(){
+    try{
+      let v=localStorage.getItem('el_invite_visitor_id');
+      if(!v){v=(crypto.randomUUID?crypto.randomUUID():'inv-'+Date.now()+'-'+Math.random().toString(16).slice(2));localStorage.setItem('el_invite_visitor_id',v)}
+      return v;
+    }catch(e){return 'inv-'+Date.now()}
+  }
+  function sessionId(){
+    try{
+      let s=sessionStorage.getItem('el_invite_session_id');
+      if(!s){s=(crypto.randomUUID?crypto.randomUUID():'sess-'+Date.now()+'-'+Math.random().toString(16).slice(2));sessionStorage.setItem('el_invite_session_id',s)}
+      return s;
+    }catch(e){return 'sess-'+Date.now()}
+  }
+  function currentPage(){
+    const img=document.getElementById('pageImage');
+    return img&&img.getAttribute('src')?img.getAttribute('src').split('/').pop():'invitation';
+  }
+  function open(){modal.hidden=false}
+  function close(){modal.hidden=true}
+  fab?.addEventListener('click',open);
+  cancel?.addEventListener('click',close);
+  modal?.addEventListener('click',e=>{if(e.target===modal)close()});
+
+  document.querySelectorAll('[data-reaction]').forEach(b=>b.addEventListener('click',()=>{
+    reaction=b.dataset.reaction;
+    document.querySelectorAll('[data-reaction]').forEach(x=>x.classList.toggle('selected',x===b));
+  }));
+  document.querySelectorAll('[data-star]').forEach(b=>b.addEventListener('click',()=>{
+    rating=Number(b.dataset.star);
+    document.querySelectorAll('[data-star]').forEach(x=>x.classList.toggle('active',Number(x.dataset.star)<=rating));
+  }));
+
+  send?.addEventListener('click',async()=>{
+    if(!reaction && !rating && !document.getElementById('feedbackMessageV1710').value.trim()){
+      alert('Please choose a reaction, rating, or enter a message.');
+      return;
+    }
+    send.disabled=true;send.textContent='Sending...';
+    const body={
+      event_slug:SLUG,visitor_id:visitorId(),session_id:sessionId(),
+      guest_name:document.getElementById('feedbackNameV1710').value.trim(),
+      reaction,reaction_label:reaction,rating,
+      message:document.getElementById('feedbackMessageV1710').value.trim(),
+      page:currentPage()
+    };
+    try{
+      const r=await fetch(FEEDBACK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),mode:'cors'});
+      if(!r.ok)throw new Error('send failed');
+      form.hidden=true;thanks.hidden=false;
+      try{localStorage.setItem('el_invite_feedback_sent','1')}catch(e){}
+      setTimeout(close,1800);
+    }catch(e){
+      alert('Feedback could not be sent. Please try again.');
+      send.disabled=false;send.textContent='Send Feedback';
+    }
+  });
+
+  // Always visible and reliable. This fixes the missing conditional return button.
+  document.getElementById('galleryReturnPill')?.addEventListener('click',()=>{
+    try{if(window.EventLensTrack)window.EventLensTrack('back_to_gallery_click','invitation')}catch(e){}
+  });
 })();
 </script>
 
