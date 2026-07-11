@@ -883,6 +883,53 @@ body.show-jana-footer #jana-footer{
 }
 </style>
 
+
+<style id="v1719-symmetric-final-page">
+.page13-actions{
+  grid-template-columns:1fr 1fr!important;
+  gap:9px!important;
+}
+.page13-actions .page13-whatsapp-button{
+  min-height:44px!important;
+  padding:11px 10px!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.78)!important;
+  color:#632341!important;
+  border:1px solid rgba(255,255,255,.45)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  text-decoration:none!important;
+  font:900 12px Arial,sans-serif!important;
+  box-shadow:0 9px 24px rgba(42,6,26,.22)!important;
+  pointer-events:auto!important;
+  cursor:pointer!important;
+  touch-action:manipulation!important;
+}
+.page13-actions .page13-whatsapp-button .page13-wa-svg{
+  width:21px!important;
+  height:21px!important;
+  display:block!important;
+  flex:0 0 21px!important;
+  pointer-events:none!important;
+  filter:none!important;
+}
+.page13-actions .page13-whatsapp-button span{
+  pointer-events:none!important;
+}
+.page13-actions [data-page13-action="calendar"]{
+  white-space:nowrap!important;
+}
+@media(max-width:390px){
+  .page13-actions .page13-whatsapp-button,
+  .page13-actions [data-page13-action="calendar"]{
+    font-size:11px!important;
+    padding:9px 5px!important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="bg"></div>
@@ -920,15 +967,16 @@ body.show-jana-footer #jana-footer{
           <button type="button" class="soft" data-page13-action="rsvp">💛 RSVP</button>
           <button type="button" class="soft" data-page13-action="share">📤 Share</button>
           <button type="button" class="soft" data-page13-action="bless">💌 Blessings</button>
-          <a class="soft page13-whatsapp-icon"
+          <a class="soft page13-whatsapp-button"
              data-page13-action="whatsapp-contact"
              href="https://wa.me/15199917293?text=Hello%20Jana%2C%20I%20am%20contacting%20you%20about%20Varmisha%27s%20event."
              target="_blank"
-             rel="noopener"
+             rel="noopener noreferrer"
              aria-label="WhatsApp Contact"
-             title="WhatsApp Contact"><svg class="page13-wa-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#25D366"/><path fill="white" d="M23.5 18.9c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.3.5 1.7.7.7.2 1.4.2 1.9.1.6-.1 1.8-.8 2.1-1.6.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg></a>
+             title="WhatsApp Contact"><svg class="page13-wa-svg" class="page13-wa-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#25D366"/><path fill="white" d="M23.5 18.9c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.3.5 1.7.7.7.2 1.4.2 1.9.1.6-.1 1.8-.8 2.1-1.6.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg><span>Contact</span></a>
           <button type="button" class="soft" data-page13-action="timeline">🕒 Timeline</button>
           <button type="button" class="soft" data-page13-action="directions">📍 Directions</button>
+          <button type="button" class="soft" data-page13-action="calendar">📅 Add to Calendar</button>
         </div>
         <button type="button" class="page13-home" data-page13-action="home" id="page13Home">⌂ Home</button>
         <div class="page13-brand">Created with ❤️ by <span>Jana</span></div>
@@ -2475,24 +2523,44 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
 </script>
 
 
-<script id="eventlens-v1718-page13-whatsapp">
+
+
+
+<script id="eventlens-v1719-page13-calendar">
 (function(){
-  const url='https://wa.me/15199917293?text=Hello%20Jana%2C%20I%20am%20contacting%20you%20about%20Varmisha%27s%20event.';
-  function handle(e){
-    const link=e.target?.closest?.('[data-page13-action="whatsapp-contact"]');
-    if(!link) return;
+  document.addEventListener('click',function(e){
+    const btn=e.target?.closest?.('[data-page13-action="calendar"]');
+    if(!btn)return;
     e.preventDefault();
     e.stopPropagation();
-    if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+    try{
+      if(window.EventLensTrack)window.EventLensTrack('calendar_click','page13');
+    }catch(_e){}
+    const quick=document.getElementById('calendarQuick');
+    const modal=document.getElementById('calendarModal');
+    if(quick){quick.click();return}
+    if(modal){modal.classList.remove('hidden');return}
+    window.open(
+      'https://calendar.google.com/calendar/render?action=TEMPLATE'
+      +'&text='+encodeURIComponent("Varmisha's Manjal Neerattu Vizha")
+      +'&dates=20260827T050000Z/20260827T103000Z'
+      +'&location='+encodeURIComponent('Hamshiya Mahal, 37 Ramanathan Road, Jaffna'),
+      '_blank','noopener'
+    );
+  },true);
+})();
+</script>
+
+
+<script id="eventlens-v1719-whatsapp-track">
+(function(){
+  document.addEventListener('click',function(e){
+    const link=e.target?.closest?.('[data-page13-action="whatsapp-contact"]');
+    if(!link)return;
     try{
       if(window.EventLensTrack)window.EventLensTrack('whatsapp_contact_click','page13');
     }catch(_e){}
-    window.open(url,'_blank','noopener');
-    return false;
-  }
-  document.addEventListener('click',handle,true);
-  document.addEventListener('pointerup',handle,true);
-  document.addEventListener('touchend',handle,{capture:true,passive:false});
+  },true);
 })();
 </script>
 
