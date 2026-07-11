@@ -1,3 +1,4 @@
+const EVENTLENS_GALLERY_URL = "https://gallery.janaeventlens.com/varmisha";
 const pages = [
   '01 - Cover.png',
   '02 - Cover.png',

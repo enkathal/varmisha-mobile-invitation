@@ -17,8 +17,8 @@
 <meta name="twitter:title" content="வர்மிஷாவின் மஞ்சள் நீராட்டு விழா | Varmisha's Manjal Neerattu Vizha" />
 <meta name="twitter:description" content="மழலை மருவி மங்கையாகி மலரும் மங்களத் தொடக்கம். Join us in celebrating Varmisha's Manjal Neerattu Vizha on 27 August 2026." />
 <meta name="twitter:image" content="https://invite.janaeventlens.com/assets/images/01%20-%20Cover.png" />
-<link rel="manifest" href="manifest.json" />
-<link rel="icon" href="favicon.png" />
+<link rel="manifest" href="manifest.json?v=17.0.0" />
+<link rel="icon" href="favicon.png?v=17.0.0" />
 <style>
 :root{
   --bg:#2b0f22;
@@ -598,6 +598,34 @@ body.show-jana-footer #jana-footer{
   box-shadow:0 8px 22px rgba(42,6,26,.18)!important;
   cursor:pointer!important;
   touch-action:manipulation!important;
+}
+</style>
+
+
+<style id="v1700-invitation-integration">
+.back-to-gallery{
+  position:fixed;
+  left:50%;
+  bottom:calc(18px + env(safe-area-inset-bottom,0px));
+  transform:translateX(-50%);
+  z-index:2147483400;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  padding:12px 18px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.45);
+  background:linear-gradient(135deg,#d8a64c,#fff2b0,#c9952f);
+  color:#55203f;
+  font:900 14px Arial,sans-serif;
+  text-decoration:none;
+  box-shadow:0 14px 38px rgba(0,0,0,.30);
+  white-space:nowrap;
+}
+.back-to-gallery.show{display:flex}
+@media(max-width:700px){
+  .back-to-gallery{bottom:calc(12px + env(safe-area-inset-bottom,0px));font-size:13px;min-height:46px}
 }
 </style>
 
@@ -1646,6 +1674,131 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
       if(target) openGallery(e);
     },{capture:true,passive:false});
   });
+})();
+</script>
+
+
+<a id="backToGalleryBtn" class="back-to-gallery" href="https://gallery.janaeventlens.com/varmisha">📸 Back to My Gallery</a>
+
+
+<script id="eventlens-v1700-integration">
+(function(){
+  const GALLERY_URL = "https://gallery.janaeventlens.com/varmisha";
+  const ANALYTICS_URL = "https://gallery.janaeventlens.com/analytics/track";
+  const INVITE_SLUG = "varmisha";
+
+  function getVisitorId(){
+    try{
+      let id = localStorage.getItem('el_invite_visitor_id');
+      if(!id){
+        id = (crypto.randomUUID ? crypto.randomUUID() : 'inv-' + Date.now() + '-' + Math.random().toString(16).slice(2));
+        localStorage.setItem('el_invite_visitor_id', id);
+      }
+      return id;
+    }catch(e){
+      return 'inv-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+    }
+  }
+
+  function getSessionId(){
+    try{
+      let id = sessionStorage.getItem('el_invite_session_id');
+      if(!id){
+        id = (crypto.randomUUID ? crypto.randomUUID() : 'sess-' + Date.now() + '-' + Math.random().toString(16).slice(2));
+        sessionStorage.setItem('el_invite_session_id', id);
+      }
+      return id;
+    }catch(e){
+      return 'sess-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+    }
+  }
+
+  function track(action, page){
+    const payload = {
+      event_slug: INVITE_SLUG,
+      action: action,
+      page: page || 'invitation',
+      source: 'invitation',
+      visitor_id: getVisitorId(),
+      session_id: getSessionId(),
+      path: location.pathname,
+      referrer: document.referrer || '',
+      title: document.title,
+      ts: new Date().toISOString()
+    };
+    try{
+      const body = JSON.stringify(payload);
+      if(navigator.sendBeacon){
+        navigator.sendBeacon(ANALYTICS_URL, new Blob([body], {type:'application/json'}));
+      }else{
+        fetch(ANALYTICS_URL, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body,
+          keepalive:true,
+          mode:'cors'
+        }).catch(()=>{});
+      }
+    }catch(e){}
+  }
+
+  function openGallery(action){
+    track(action || 'find_my_photos_click', 'invitation');
+    setTimeout(()=>{ window.location.href = GALLERY_URL; }, 80);
+  }
+
+  window.EventLensOpenGallery = openGallery;
+  window.EventLensTrack = track;
+
+  document.addEventListener('DOMContentLoaded', function(){
+    track('invitation_open', 'invitation');
+
+    const params = new URLSearchParams(location.search);
+    const backBtn = document.getElementById('backToGalleryBtn');
+    if(backBtn && params.get('return') === 'gallery'){
+      backBtn.classList.add('show');
+      backBtn.addEventListener('click', function(){ track('back_to_gallery_click', 'invitation'); });
+    }
+
+    const clickable = Array.from(document.querySelectorAll('a,button'));
+    clickable.forEach(function(el){
+      const text = (el.textContent || '').trim().toLowerCase();
+      const href = (el.getAttribute('href') || '').toLowerCase();
+
+      const isPhotoEntry =
+        text.includes('find my photo') ||
+        text.includes('find my photos') ||
+        text.includes('camera') ||
+        text.includes('photo gallery') ||
+        href.includes('gallery.janaeventlens.com/varmisha');
+
+      if(isPhotoEntry){
+        el.setAttribute('href', GALLERY_URL);
+        el.addEventListener('click', function(ev){
+          ev.preventDefault();
+          openGallery(text.includes('camera') ? 'camera_click' : 'find_my_photos_click');
+        });
+      }
+
+      if(text.includes('rsvp')) el.addEventListener('click', ()=>track('rsvp_click','invitation'));
+      if(text.includes('bless')) el.addEventListener('click', ()=>track('blessings_click','invitation'));
+      if(text.includes('direction')) el.addEventListener('click', ()=>track('directions_click','invitation'));
+      if(text.includes('share')) el.addEventListener('click', ()=>track('share_click','invitation'));
+      if(text.includes('guestbook')) el.addEventListener('click', ()=>track('guestbook_click','invitation'));
+    });
+
+    const image = document.getElementById('pageImage');
+    if(image){
+      const observer = new MutationObserver(function(){
+        const src = image.getAttribute('src') || '';
+        if(src) track('page_view', src.split('/').pop());
+      });
+      observer.observe(image, {attributes:true, attributeFilter:['src']});
+      if(image.getAttribute('src')) track('page_view', image.getAttribute('src').split('/').pop());
+    }
+  });
+
+  window.addEventListener('pagehide', function(){ track('invitation_exit','invitation'); });
 })();
 </script>
 
