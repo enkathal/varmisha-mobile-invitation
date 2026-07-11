@@ -744,6 +744,40 @@ body.show-jana-footer #jana-footer{
 }
 </style>
 
+
+<style id="v1713-control-spacing-fix">
+/* Keep the original Home and Music buttons clear and fully clickable. */
+.gallery-return-pill{
+  left:12px!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:calc(76px + env(safe-area-inset-bottom,0px))!important;
+  z-index:2147483200!important;
+}
+.reaction-fab{
+  right:12px!important;
+  left:auto!important;
+  top:auto!important;
+  bottom:calc(76px + env(safe-area-inset-bottom,0px))!important;
+  z-index:2147483200!important;
+}
+
+/* Original invitation controls stay above the artwork and remain interactive. */
+.viewer .float.home,
+.viewer .float.music{
+  z-index:2147483300!important;
+  opacity:1;
+  pointer-events:auto!important;
+}
+
+@media(max-width:420px){
+  .gallery-return-pill,
+  .reaction-fab{
+    bottom:calc(72px + env(safe-area-inset-bottom,0px))!important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="bg"></div>
