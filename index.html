@@ -942,6 +942,48 @@ body.show-jana-footer #jana-footer{
 #page13WhatsAppDirect *{pointer-events:none!important}
 </style>
 
+
+<style id="v17111-whatsapp-logo-music-stop">
+.page13-actions .page13-whatsapp-button{
+  min-height:44px!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.82)!important;
+  color:#632341!important;
+  border:1px solid rgba(255,255,255,.45)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  text-decoration:none!important;
+  font:900 12px Arial,sans-serif!important;
+  box-shadow:0 9px 24px rgba(42,6,26,.18)!important;
+}
+.page13-actions .page13-wa-mark{
+  width:24px!important;
+  height:24px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:transparent!important;
+}
+.page13-actions .page13-whatsapp-svg{
+  width:24px!important;
+  height:24px!important;
+  display:block!important;
+}
+</style>
+
+
+<style id="v17112-calendar-click-fix">
+#page13CalendarDirect{
+  position:relative!important;
+  z-index:2147483600!important;
+  pointer-events:auto!important;
+  cursor:pointer!important;
+  touch-action:manipulation!important;
+}
+#page13CalendarDirect *{pointer-events:none!important}
+</style>
+
 </head>
 <body>
 <div class="bg"></div>
@@ -987,10 +1029,10 @@ body.show-jana-footer #jana-footer{
    rel="noopener noreferrer"
    aria-label="WhatsApp Contact"
    title="WhatsApp Contact">
-  <span class="page13-wa-mark">☎</span>
+  <span class="page13-wa-mark"><svg class="page13-whatsapp-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#25D366"/><path fill="white" d="M23.5 18.9c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.3.5 1.7.7.7.2 1.4.2 1.9.1.6-.1 1.8-.8 2.1-1.6.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg></span>
   <span>WhatsApp</span>
 </a>
-          <button type="button" class="soft" data-page13-action="timeline">🕒 Timeline</button>
+          <button type="button" class="soft" data-page13-action="timeline" id="page13CalendarDirect">🕒 Timeline</button>
           <button type="button" class="soft" data-page13-action="directions">📍 Directions</button>
           <button type="button" class="soft" data-page13-action="calendar">📅 Add to Calendar</button>
         </div>
@@ -2466,77 +2508,7 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
 </script>
 
 
-<script id="eventlens-v1718-always-music">
-(function(){
-  const music=document.getElementById('bgMusic');
-  const musicBtn=document.getElementById('musicBtn');
-  if(!music) return;
 
-  let deliberatelyOff=false;
-
-  function updatePlayingUi(){
-    if(musicBtn){
-      musicBtn.textContent='♫';
-      musicBtn.classList.add('playing');
-    }
-    try{window.musicPlaying=true}catch(e){}
-  }
-
-  async function playMusicNow(){
-    if(deliberatelyOff) return false;
-    try{
-      music.muted=false;
-      music.volume=1;
-      await music.play();
-      updatePlayingUi();
-      return true;
-    }catch(e){
-      return false;
-    }
-  }
-
-  // Every gallery visit marks music to resume when the guest returns.
-  document.addEventListener('click',function(e){
-    const target=e.target?.closest?.('#galleryReturnPill,#page13FindPhotosDirect,[data-page13-action="gallery"]');
-    if(target){
-      deliberatelyOff=false;
-      try{sessionStorage.setItem('el_music_should_resume','1')}catch(_e){}
-    }
-  },true);
-
-  // Respect an intentional tap on the music button.
-  musicBtn?.addEventListener('click',function(){
-    setTimeout(function(){
-      deliberatelyOff=music.paused;
-      try{sessionStorage.setItem('el_music_should_resume',deliberatelyOff?'0':'1')}catch(e){}
-    },120);
-  },true);
-
-  function restoreMusic(){
-    let shouldResume=true;
-    try{
-      if(sessionStorage.getItem('el_music_should_resume')==='0') shouldResume=false;
-    }catch(e){}
-    if(!shouldResume) return;
-    deliberatelyOff=false;
-    playMusicNow();
-  }
-
-  window.addEventListener('pageshow',function(){setTimeout(restoreMusic,120)});
-  window.addEventListener('focus',function(){setTimeout(restoreMusic,80)});
-  document.addEventListener('visibilitychange',function(){
-    if(document.visibilityState==='visible') setTimeout(restoreMusic,80);
-  });
-
-  // Autoplay may be blocked after Back navigation. The first interaction
-  // anywhere resumes it automatically.
-  ['pointerdown','touchstart','click'].forEach(function(evt){
-    document.addEventListener(evt,function(){
-      if(!deliberatelyOff && music.paused) playMusicNow();
-    },{capture:true,passive:true});
-  });
-})();
-</script>
 
 
 
@@ -2602,6 +2574,134 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
       try{if(window.EventLensTrack)window.EventLensTrack('reaction_open','page13')}catch(_e){}
     }
   },true);
+})();
+</script>
+
+
+<script id="eventlens-v17111-music-lifecycle">
+(function(){
+  const music=document.getElementById('bgMusic');
+  const musicBtn=document.getElementById('musicBtn');
+  if(!music) return;
+
+  let deliberatelyOff=false;
+
+  function setPlayingUi(){
+    if(musicBtn){
+      musicBtn.textContent='♫';
+      musicBtn.classList.add('playing');
+    }
+    try{window.musicPlaying=true}catch(e){}
+  }
+
+  function setPausedUi(){
+    if(musicBtn){
+      musicBtn.textContent='♪';
+      musicBtn.classList.remove('playing');
+    }
+    try{window.musicPlaying=false}catch(e){}
+  }
+
+  function pauseImmediately(){
+    try{
+      music.pause();
+      setPausedUi();
+    }catch(e){}
+  }
+
+  async function resumeWhenVisible(){
+    if(deliberatelyOff || document.visibilityState==='hidden') return false;
+    try{
+      music.muted=false;
+      music.volume=1;
+      await music.play();
+      setPlayingUi();
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
+  // Stop music as soon as the invitation is hidden, closed, or navigated away from.
+  window.addEventListener('pagehide', pauseImmediately);
+  window.addEventListener('beforeunload', pauseImmediately);
+  document.addEventListener('visibilitychange',function(){
+    if(document.visibilityState==='hidden'){
+      pauseImmediately();
+    }else{
+      setTimeout(resumeWhenVisible,120);
+    }
+  });
+
+  // Resume only when the invitation is visible again.
+  window.addEventListener('pageshow',function(){
+    setTimeout(resumeWhenVisible,120);
+  });
+  window.addEventListener('focus',function(){
+    if(document.visibilityState==='visible') setTimeout(resumeWhenVisible,100);
+  });
+
+  // Respect a deliberate Music-button off action.
+  musicBtn?.addEventListener('click',function(){
+    setTimeout(function(){
+      deliberatelyOff=music.paused;
+      if(deliberatelyOff) setPausedUi();
+    },120);
+  },true);
+
+  // If autoplay is blocked on return, first interaction resumes it.
+  ['pointerdown','touchstart','click'].forEach(function(evt){
+    document.addEventListener(evt,function(){
+      if(!deliberatelyOff && document.visibilityState==='visible' && music.paused){
+        resumeWhenVisible();
+      }
+    },{capture:true,passive:true});
+  });
+})();
+</script>
+
+
+<script id="eventlens-v17112-calendar-fix">
+(function(){
+  function openCalendar(e){
+    const btn=e.target?.closest?.('#page13CalendarDirect');
+    if(!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+
+    const modal =
+      document.getElementById('calendarModal') ||
+      document.querySelector('.calendar-modal') ||
+      document.querySelector('[data-calendar-modal]');
+
+    if(modal){
+      modal.classList.remove('hidden');
+      modal.removeAttribute('hidden');
+      modal.style.display='grid';
+      try{
+        if(window.EventLensTrack)window.EventLensTrack('calendar_click','page13');
+      }catch(_e){}
+      return false;
+    }
+
+    // Fallback: download/open a Google Calendar event directly.
+    const title=encodeURIComponent("Varmisha's Manjal Neerattu Vizha");
+    const details=encodeURIComponent("Varmisha's Manjal Neerattu Vizha");
+    const location=encodeURIComponent("Hamshiya Mahal, 37 Ramanathan Road, Jaffna");
+    const dates='20260827T050000Z/20260827T093000Z';
+    window.open(
+      'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+
+      title+'&dates='+dates+'&details='+details+'&location='+location,
+      '_blank',
+      'noopener'
+    );
+    return false;
+  }
+
+  document.addEventListener('click',openCalendar,true);
+  document.addEventListener('pointerup',openCalendar,true);
+  document.addEventListener('touchend',openCalendar,{capture:true,passive:false});
 })();
 </script>
 
