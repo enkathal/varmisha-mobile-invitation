@@ -662,7 +662,7 @@ body.show-jana-footer #jana-footer{
           After the event, return here to find your photos with EventLens.
         </div>
         <div class="page13-actions">
-          <button type="button" data-page13-action="gallery">📸 Find My Photos</button>
+          <a  id="page13FindPhotosDirect" href="https://gallery.janaeventlens.com/varmisha" onclick="window.location.href='https://gallery.janaeventlens.com/varmisha';return false;">📸 Find My Photos</a>
           <button type="button" class="soft" data-page13-action="rsvp">💛 RSVP</button>
           <button type="button" class="soft" data-page13-action="share">📤 Share</button>
           <button type="button" class="soft" data-page13-action="bless">💌 Blessings</button>
@@ -808,7 +808,7 @@ body.show-jana-footer #jana-footer{
   </div>
 </div>
 
-<div class="gallery-modal app-modal hidden" id="galleryModal">
+<div class="gallery-modal app-modal hidden" id="galleryModal" data-obsolete-gallery-modal="true">
   <div class="app-card">
     <div style="font-size:42px;margin-bottom:6px">📷</div>
     <h2>AI Photo Gallery</h2>
@@ -1152,7 +1152,10 @@ document.getElementById('whatsappModal')?.addEventListener('click',e=>{if(e.targ
 document.getElementById('timelineQuick')?.addEventListener('click',e=>{e.preventDefault();document.getElementById('timelineModal')?.classList.remove('hidden')});
 document.getElementById('closeTimeline')?.addEventListener('click',()=>document.getElementById('timelineModal')?.classList.add('hidden'));
 document.getElementById('timelineModal')?.addEventListener('click',e=>{if(e.target.id==='timelineModal') e.target.classList.add('hidden')});
-document.getElementById('galleryQuick')?.addEventListener('click',e=>{e.preventDefault();document.getElementById('galleryModal')?.classList.remove('hidden')});
+document.getElementById('galleryQuick')?.addEventListener('click',e=>{
+      e.preventDefault();
+      window.location.assign('https://gallery.janaeventlens.com/varmisha');
+    });
 document.getElementById('closeGallery')?.addEventListener('click',()=>document.getElementById('galleryModal')?.classList.add('hidden'));
 document.getElementById('galleryModal')?.addEventListener('click',e=>{if(e.target.id==='galleryModal') e.target.classList.add('hidden')});
 
@@ -1828,6 +1831,32 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
   ['click','touchend','pointerup'].forEach(function(evt){
     document.addEventListener(evt, handler, {capture:true, passive:false});
   });
+})();
+</script>
+
+
+<script id="eventlens-v1702-definitive-page13-fix">
+(function(){
+  const galleryUrl = "https://gallery.janaeventlens.com/varmisha";
+  function go(e){
+    const t = e.target && e.target.closest
+      ? e.target.closest('#page13FindPhotosDirect,[data-page13-action="gallery"],#galleryQuick')
+      : null;
+    if(!t) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+    try{
+      document.getElementById('galleryModal')?.classList.add('hidden');
+      if(window.EventLensTrack) window.EventLensTrack('find_my_photos_click','invitation');
+      if(window.EventLensInviteAnalytics) window.EventLensInviteAnalytics.send('invite_gallery_click','invite');
+    }catch(_e){}
+    window.location.replace(galleryUrl);
+    return false;
+  }
+  document.addEventListener('click', go, true);
+  document.addEventListener('pointerup', go, true);
+  document.addEventListener('touchend', go, {capture:true, passive:false});
 })();
 </script>
 
