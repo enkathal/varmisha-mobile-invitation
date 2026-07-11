@@ -1563,7 +1563,13 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
   }
 
   function doAction(action){
-    if(action === 'gallery'){ showModal('galleryModal'); return; }
+    if(action === 'gallery'){
+      try{
+        if(window.EventLensTrack) window.EventLensTrack('find_my_photos_click','invitation');
+      }catch(e){}
+      window.location.href = 'https://gallery.janaeventlens.com/varmisha';
+      return;
+    }
     if(action === 'rsvp'){
       document.getElementById('rsvpResult')?.classList.add('hidden');
       showModal('rsvpModal');
@@ -1799,6 +1805,29 @@ document.getElementById('startBtn')?.addEventListener('click', ()=>{
   });
 
   window.addEventListener('pagehide', function(){ track('invitation_exit','invitation'); });
+})();
+</script>
+
+
+<script id="eventlens-v1701-page13-gallery-fix">
+(function(){
+  const url = "https://gallery.janaeventlens.com/varmisha";
+  function handler(e){
+    const btn = e.target && e.target.closest ? e.target.closest('[data-page13-action="gallery"]') : null;
+    if(!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+    try{
+      if(window.EventLensTrack) window.EventLensTrack('find_my_photos_click','invitation');
+      else if(window.EventLensInviteAnalytics) window.EventLensInviteAnalytics.send('invite_gallery_click','invite');
+    }catch(_e){}
+    window.location.href = url;
+    return false;
+  }
+  ['click','touchend','pointerup'].forEach(function(evt){
+    document.addEventListener(evt, handler, {capture:true, passive:false});
+  });
 })();
 </script>
 
